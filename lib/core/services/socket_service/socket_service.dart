@@ -1,0 +1,147 @@
+import 'dart:async';
+
+import 'package:auto_shield/core/env.dart';
+import 'package:auto_shield/core/services/auth_interceptor/auth_interceptor.dart';
+import 'package:logging/logging.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:signalr_netcore/errors.dart';
+import 'package:signalr_netcore/http_connection_options.dart';
+import 'package:signalr_netcore/hub_connection.dart';
+import 'package:signalr_netcore/hub_connection_builder.dart';
+import 'package:signalr_netcore/ihub_protocol.dart';
+import 'package:signalr_netcore/json_hub_protocol.dart';
+
+class HubEvent {
+  const HubEvent({
+    required this.name,
+    this.data,
+  });
+  final String name;
+  final dynamic data;
+
+  @override
+  String toString() => 'HubEvent(name: $name, data: $data)';
+}
+
+class SocketService {
+  SocketService({
+    required AuthInterceptor authInterceptor,
+  }) : _authInterceptor = authInterceptor;
+  static const String _baseUrl = 'https://autoapi.rzprime.com';
+  static const String _pricesHubPath = '/hubs/prices';
+
+  static const String _methodNotifyPrices = 'NotifyPrice';
+
+  final AuthInterceptor _authInterceptor;
+
+  HubConnection? _pricesConn;
+
+  bool _pricesStarted = false;
+
+  final Set<String> _pricesHandlers = {_methodNotifyPrices};
+
+  final _controller = StreamController<HubEvent>.broadcast();
+  Stream<HubEvent> get stream => _controller.stream.doOnData((event) {});
+
+  Future<void> connect() async {
+    await disconnect();
+
+    await _startPrices();
+  }
+
+  Future<void> disconnect({bool closeStreams = false}) async {
+    try {
+      if (_pricesConn != null) {
+        for (final m in _pricesHandlers) {
+          _pricesConn!.off(m);
+        }
+      }
+    } catch (_) {}
+
+    try {
+      if (_pricesStarted) {
+        await _pricesConn?.stop();
+      }
+    } catch (_) {}
+
+    _pricesStarted = false;
+    _pricesConn = null;
+
+    if (closeStreams) {
+      await _controller.close();
+    }
+  }
+
+  Future<void> _startPrices() async {
+    _pricesConn = await _buildConnection(_pricesHubPath);
+
+    _pricesConn!.on(_methodNotifyPrices, (args) {
+      _controller.add(HubEvent(
+        name: _methodNotifyPrices,
+        data: _normalizeArgs(args),
+      ));
+    });
+
+    _wireLifecycle(_pricesConn!);
+
+    try {
+      await _pricesConn!.start();
+      _pricesStarted = true;
+    } on HttpError catch (_) {}
+  }
+
+  Future<HubConnection> _buildConnection(String hubPath) async {
+    final token = _getAccessToken();
+
+    final url = token.isEmpty
+        ? '$_baseUrl$hubPath'
+        : '$_baseUrl$hubPath?access_token=$token';
+    final sig = Env.authHeaders()['Signature'] as String;
+
+    final options = HttpConnectionOptions(
+        logMessageContent: true,
+        headers: MessageHeaders()
+          ..setHeaderValue('applicationId', Env.applicationId)
+          ..setHeaderValue('signature', sig),
+        logger: Logger('SocketService'));
+
+    final builder = HubConnectionBuilder()
+        .withUrl(url, options: options)
+        .configureLogging(Logger('SocketService'))
+        .withHubProtocol(JsonHubProtocol())
+        .withAutomaticReconnect(
+            retryDelays: const [0, 2000, 5000, 10000, 20000, 30000]);
+
+    final conn = builder.build()
+      ..serverTimeoutInMilliseconds = 1000 * 1000
+      ..keepAliveIntervalInMilliseconds = 15 * 1000;
+    return conn;
+  }
+
+  void _wireLifecycle(
+    HubConnection conn, {
+    Future<void> Function()? onReconnected,
+  }) {
+    conn
+      ..onclose(({error}) async {})
+      ..onreconnecting(({error}) async {})
+      ..onreconnected(({connectionId}) async {
+        if (onReconnected != null) {
+          await onReconnected();
+        }
+      });
+  }
+
+  dynamic _normalizeArgs(List<Object?>? args) {
+    if (args == null || args.isEmpty) return null;
+    return args.length == 1 ? args.first : args;
+  }
+
+  String _getAccessToken() {
+    return _authInterceptor.stream.value.token?.token ?? '';
+  }
+
+  Future<void> dispose() async {
+    await disconnect(closeStreams: true);
+  }
+}
