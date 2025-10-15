@@ -43,7 +43,7 @@ class DashedOutlinedButton extends StatelessWidget {
             Positioned.fill(
               child: IgnorePointer(
                 child: CustomPaint(
-                  painter: _DashedBorderPainter(
+                  painter: DashedBorderPainter(
                     color: color,
                     strokeWidth: strokeWidth,
                     radius: radius,
@@ -59,8 +59,8 @@ class DashedOutlinedButton extends StatelessWidget {
   }
 }
 
-class _DashedBorderPainter extends CustomPainter {
-  _DashedBorderPainter({
+class DashedBorderPainter extends CustomPainter {
+  DashedBorderPainter({
     required this.color,
     required this.strokeWidth,
     required this.radius,
@@ -74,6 +74,9 @@ class _DashedBorderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (size.width <= 0 || size.height <= 0) return;
+    if (dashArray.isEmpty || dashArray.any((d) => d <= 0)) return;
+
     final rect = Rect.fromLTWH(
       strokeWidth / 2,
       strokeWidth / 2,
@@ -87,6 +90,7 @@ class _DashedBorderPainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
+      ..strokeJoin = StrokeJoin.round
       ..strokeWidth = strokeWidth;
 
     final dashed = _dashPath(path, dashArray);
@@ -95,29 +99,38 @@ class _DashedBorderPainter extends CustomPainter {
 
   Path _dashPath(Path source, List<double> dashArray) {
     final dashed = Path();
+
     for (final metric in source.computeMetrics()) {
-      var distance = 0;
+      var distance = 0.0;
       var index = 0;
-      while (distance < metric.length) {
-        final len = dashArray[index % dashArray.length];
+      final total = metric.length;
+
+      while (distance < total) {
+        final len = dashArray[index % dashArray.length].abs();
+        if (len == 0) break;
+
+        final next = (distance + len).clamp(0.0, total);
         final isDraw = index.isEven;
-        final end = (distance + len).clamp(0, metric.length).toDouble();
+
         if (isDraw) {
           dashed.addPath(
-              metric.extractPath(distance.toDouble(), end), Offset.zero);
+            metric.extractPath(distance, next),
+            Offset.zero,
+          );
         }
-        distance = end.toInt();
+
+        if (next == distance) break;
+
+        distance = next;
         index++;
       }
     }
+
     return dashed;
   }
 
   @override
-  bool shouldRepaint(covariant _DashedBorderPainter oldDelegate) {
-    return oldDelegate.color != color ||
-        oldDelegate.strokeWidth != strokeWidth ||
-        oldDelegate.radius != radius ||
-        oldDelegate.dashArray != dashArray;
+  bool shouldRepaint(covariant DashedBorderPainter old) {
+    return true;
   }
 }

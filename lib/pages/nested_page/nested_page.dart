@@ -1,3 +1,4 @@
+import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,7 @@ class NestedPage extends StatefulWidget {
 class _NestedPageState extends State<NestedPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
       body: SafeArea(
         child: widget.child,
       ),

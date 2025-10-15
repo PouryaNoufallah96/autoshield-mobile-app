@@ -10,8 +10,10 @@ part 'add_shield_state.dart';
 class AddShieldBloc extends Bloc<AddShieldEvent, AddShieldState> {
   AddShieldBloc({
     required ShieldService shieldService,
+    required this.tokenName,
   })  : _shieldService = shieldService,
         super(const AddShieldState()) {
+    on<_ChangeStep>(_onChangeStep);
     on<_ChangeMonth>(_onChangeMonth);
     on<_ChangeQuantity>(_onChangeQuantity);
     on<_ChangeConfig>(_onChangeConfig);
@@ -19,24 +21,57 @@ class AddShieldBloc extends Bloc<AddShieldEvent, AddShieldState> {
   }
 
   final ShieldService _shieldService;
+  final String tokenName;
+
+  Future<void> _onChangeStep(
+    _ChangeStep event,
+    Emitter<AddShieldState> emit,
+  ) async {
+    emit(state.copyWith(step: event.step));
+  }
 
   Future<void> _onChangeMonth(
     _ChangeMonth event,
     Emitter<AddShieldState> emit,
-  ) async {}
+  ) async {
+    emit(state.copyWith(month: event.month));
+  }
 
   Future<void> _onChangeQuantity(
     _ChangeQuantity event,
     Emitter<AddShieldState> emit,
-  ) async {}
+  ) async {
+    emit(state.copyWith(quantity: event.quantity));
+  }
 
   Future<void> _onChangeConfig(
     _ChangeConfig event,
     Emitter<AddShieldState> emit,
-  ) async {}
+  ) async {
+    emit(state.copyWith(config: event.config));
+  }
 
   Future<void> _onSubmit(
     _Submit event,
     Emitter<AddShieldState> emit,
-  ) async {}
+  ) async {
+    if (state.config == null || state.quantity == null || state.month == null) {
+      return;
+    }
+
+    emit(state.copyWith(submitStatus: AddShieldSubmitStatus.inProgress));
+
+    final isSucceed = await _shieldService.createShield(
+      tokenName: tokenName,
+      shieldType: state.config!.name,
+      amount: state.quantity!,
+      selectedMonth: state.month!.month,
+    );
+
+    if (isSucceed) {
+      emit(state.copyWith(submitStatus: AddShieldSubmitStatus.success));
+    } else {
+      emit(state.copyWith(submitStatus: AddShieldSubmitStatus.failure));
+    }
+  }
 }

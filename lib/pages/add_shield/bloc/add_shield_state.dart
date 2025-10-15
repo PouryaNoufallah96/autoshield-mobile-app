@@ -22,12 +22,25 @@ enum ShieldMonth {
 
 enum AddShieldSubmitStatus { idle, inProgress, success, failure }
 
+enum AddShieldStep { quantity, config, confirm }
+
+extension AddShieldStepX on AddShieldStep {
+  String get title {
+    return switch (this) {
+      AddShieldStep.quantity => 'Quantity & Number of Month',
+      AddShieldStep.config => 'Select Your Auto Shield Plan',
+      AddShieldStep.confirm => 'Shield Confirmation',
+    };
+  }
+}
+
 @freezed
 class AddShieldState with _$AddShieldState {
   const factory AddShieldState({
     ShieldMonth? month,
     double? quantity,
     ShieldConfig? config,
+    @Default(AddShieldStep.quantity) AddShieldStep step,
     @Default(AddShieldSubmitStatus.idle) AddShieldSubmitStatus submitStatus,
   }) = _AddShieldState;
 }

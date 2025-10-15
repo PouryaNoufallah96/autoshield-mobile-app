@@ -64,7 +64,8 @@ class AssetItem extends StatelessWidget {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     )),
                   ),
-                  onPressed: () => context.pushNamed('add_shield', extra: stat),
+                  onPressed: () =>
+                      context.pushNamed('add_shield', extra: stat.toJson()),
                   child: const Text('Add'),
                 )
               ],

@@ -1,4 +1,5 @@
 import 'package:auto_shield/components/app_logo.dart';
+import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/components/dashed_button.dart';
 import 'package:auto_shield/core/blocs/cubit/health_status_cubit.dart';
 import 'package:auto_shield/core/blocs/reown/reown_bloc.dart';
@@ -27,7 +28,8 @@ class _AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: AppScaffold(
+        isTop: true,
         body: Column(
           children: [
             const Spacer(),

@@ -8,6 +8,25 @@ class ShieldService {
 
   final HttpService _adapter;
 
+  Future<bool> createShield({
+    required String tokenName,
+    required String shieldType,
+    required double amount,
+    required int selectedMonth,
+  }) async {
+    final res = await _adapter.requestUri<dynamic>(
+        Uri.parse('Shield/GetWalletState'),
+        method: HttpMethod.post,
+        body: {
+          'tokenName': tokenName,
+          'amount': amount,
+          'selectedMonth': selectedMonth,
+          'shieldType': shieldType,
+        });
+
+    return res is AppSuccessResponse;
+  }
+
   Future<List<WalletStats>?> getWalletStats() async {
     final res = await _adapter
         .requestUri<Map<String, dynamic>>(Uri.parse('Shield/GetWalletState'));

@@ -77,7 +77,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                       .distinctUnique(equals: (e1, e2) => e1 != e2),
                   builder: (context, asyncSnapshot) {
                     if (asyncSnapshot.data == null) {
-                      return const Scaffold();
+                      return AppScaffold();
                     }
 
                     return NestedPage(child: navigationShell);
@@ -109,8 +109,17 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                       path: 'add_shield',
                       name: 'add_shield',
                       builder: (context, state) {
-                        final stat = state.extra! as WalletStats;
-                        return AddShieldPage(stat: stat);
+                        final stat = switch (state.extra) {
+                          final Map<String, dynamic> i =>
+                            WalletStats.fromJson(i),
+                          _ => state.extra! as WalletStats
+                        };
+
+                        return BlocProvider.value(
+                          value: _sectionANavigatorKey.currentContext!
+                              .read<ShieldConfigCubit>(),
+                          child: AddShieldPage(stat: stat),
+                        );
                       },
                     )
                   ],

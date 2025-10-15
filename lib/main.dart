@@ -28,6 +28,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:reown_appkit/modal/theme/public/appkit_modal_theme_widget.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:toastification/toastification.dart';
+import 'package:auto_shield/components/app_scaffold.dart';
 
 part 'router/router.dart';
 
@@ -75,7 +76,7 @@ class AutoShieldAppState extends State<AutoShieldApp> with AutoShieldAppRouter {
             ),
             child: MaterialApp.router(
               routerConfig: appRouter,
-              title: 'RZ Prime',
+              title: 'Auto shield',
               theme: AutoShieldTheme()(isDark),
               builder: (context, child) {
                 return RepositoryProvider(
