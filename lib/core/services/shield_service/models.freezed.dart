@@ -25,6 +25,8 @@ mixin _$WalletStats {
   double get balance => throw _privateConstructorUsedError;
   double get covered => throw _privateConstructorUsedError;
   double get availableForCover => throw _privateConstructorUsedError;
+  double get coveredValue => throw _privateConstructorUsedError;
+  double get availableForCoverValue => throw _privateConstructorUsedError;
 
   /// Serializes this WalletStats to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +49,9 @@ abstract class $WalletStatsCopyWith<$Res> {
       String tokenName,
       double balance,
       double covered,
-      double availableForCover});
+      double availableForCover,
+      double coveredValue,
+      double availableForCoverValue});
 }
 
 /// @nodoc
@@ -70,6 +74,8 @@ class _$WalletStatsCopyWithImpl<$Res, $Val extends WalletStats>
     Object? balance = null,
     Object? covered = null,
     Object? availableForCover = null,
+    Object? coveredValue = null,
+    Object? availableForCoverValue = null,
   }) {
     return _then(_value.copyWith(
       symbol: null == symbol
@@ -92,6 +98,14 @@ class _$WalletStatsCopyWithImpl<$Res, $Val extends WalletStats>
           ? _value.availableForCover
           : availableForCover // ignore: cast_nullable_to_non_nullable
               as double,
+      coveredValue: null == coveredValue
+          ? _value.coveredValue
+          : coveredValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      availableForCoverValue: null == availableForCoverValue
+          ? _value.availableForCoverValue
+          : availableForCoverValue // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -109,7 +123,9 @@ abstract class _$$WalletStatsImplCopyWith<$Res>
       String tokenName,
       double balance,
       double covered,
-      double availableForCover});
+      double availableForCover,
+      double coveredValue,
+      double availableForCoverValue});
 }
 
 /// @nodoc
@@ -130,6 +146,8 @@ class __$$WalletStatsImplCopyWithImpl<$Res>
     Object? balance = null,
     Object? covered = null,
     Object? availableForCover = null,
+    Object? coveredValue = null,
+    Object? availableForCoverValue = null,
   }) {
     return _then(_$WalletStatsImpl(
       symbol: null == symbol
@@ -152,6 +170,14 @@ class __$$WalletStatsImplCopyWithImpl<$Res>
           ? _value.availableForCover
           : availableForCover // ignore: cast_nullable_to_non_nullable
               as double,
+      coveredValue: null == coveredValue
+          ? _value.coveredValue
+          : coveredValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      availableForCoverValue: null == availableForCoverValue
+          ? _value.availableForCoverValue
+          : availableForCoverValue // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -164,7 +190,9 @@ class _$WalletStatsImpl implements _WalletStats {
       required this.tokenName,
       required this.balance,
       required this.covered,
-      required this.availableForCover});
+      required this.availableForCover,
+      required this.coveredValue,
+      required this.availableForCoverValue});
 
   factory _$WalletStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$WalletStatsImplFromJson(json);
@@ -179,10 +207,14 @@ class _$WalletStatsImpl implements _WalletStats {
   final double covered;
   @override
   final double availableForCover;
+  @override
+  final double coveredValue;
+  @override
+  final double availableForCoverValue;
 
   @override
   String toString() {
-    return 'WalletStats(symbol: $symbol, tokenName: $tokenName, balance: $balance, covered: $covered, availableForCover: $availableForCover)';
+    return 'WalletStats(symbol: $symbol, tokenName: $tokenName, balance: $balance, covered: $covered, availableForCover: $availableForCover, coveredValue: $coveredValue, availableForCoverValue: $availableForCoverValue)';
   }
 
   @override
@@ -196,13 +228,17 @@ class _$WalletStatsImpl implements _WalletStats {
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.covered, covered) || other.covered == covered) &&
             (identical(other.availableForCover, availableForCover) ||
-                other.availableForCover == availableForCover));
+                other.availableForCover == availableForCover) &&
+            (identical(other.coveredValue, coveredValue) ||
+                other.coveredValue == coveredValue) &&
+            (identical(other.availableForCoverValue, availableForCoverValue) ||
+                other.availableForCoverValue == availableForCoverValue));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, symbol, tokenName, balance, covered, availableForCover);
+  int get hashCode => Object.hash(runtimeType, symbol, tokenName, balance,
+      covered, availableForCover, coveredValue, availableForCoverValue);
 
   /// Create a copy of WalletStats
   /// with the given fields replaced by the non-null parameter values.
@@ -226,7 +262,9 @@ abstract class _WalletStats implements WalletStats {
       required final String tokenName,
       required final double balance,
       required final double covered,
-      required final double availableForCover}) = _$WalletStatsImpl;
+      required final double availableForCover,
+      required final double coveredValue,
+      required final double availableForCoverValue}) = _$WalletStatsImpl;
 
   factory _WalletStats.fromJson(Map<String, dynamic> json) =
       _$WalletStatsImpl.fromJson;
@@ -241,6 +279,10 @@ abstract class _WalletStats implements WalletStats {
   double get covered;
   @override
   double get availableForCover;
+  @override
+  double get coveredValue;
+  @override
+  double get availableForCoverValue;
 
   /// Create a copy of WalletStats
   /// with the given fields replaced by the non-null parameter values.
@@ -256,7 +298,7 @@ ShieldHistory _$ShieldHistoryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ShieldHistory {
-  String get registerHash => throw _privateConstructorUsedError;
+  String? get registerHash => throw _privateConstructorUsedError;
   String get expireMoment => throw _privateConstructorUsedError;
   double get tokenAmount => throw _privateConstructorUsedError;
   double get tokenPrice => throw _privateConstructorUsedError;
@@ -275,6 +317,7 @@ mixin _$ShieldHistory {
   String? get settlementToken => throw _privateConstructorUsedError;
   String? get shieldReference => throw _privateConstructorUsedError;
   String? get walletAddress => throw _privateConstructorUsedError;
+  String? get symbol => throw _privateConstructorUsedError;
   String? get tokenName => throw _privateConstructorUsedError;
 
   /// Serializes this ShieldHistory to a JSON map.
@@ -294,7 +337,7 @@ abstract class $ShieldHistoryCopyWith<$Res> {
       _$ShieldHistoryCopyWithImpl<$Res, ShieldHistory>;
   @useResult
   $Res call(
-      {String registerHash,
+      {String? registerHash,
       String expireMoment,
       double tokenAmount,
       double tokenPrice,
@@ -313,6 +356,7 @@ abstract class $ShieldHistoryCopyWith<$Res> {
       String? settlementToken,
       String? shieldReference,
       String? walletAddress,
+      String? symbol,
       String? tokenName});
 }
 
@@ -331,7 +375,7 @@ class _$ShieldHistoryCopyWithImpl<$Res, $Val extends ShieldHistory>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? registerHash = null,
+    Object? registerHash = freezed,
     Object? expireMoment = null,
     Object? tokenAmount = null,
     Object? tokenPrice = null,
@@ -350,13 +394,14 @@ class _$ShieldHistoryCopyWithImpl<$Res, $Val extends ShieldHistory>
     Object? settlementToken = freezed,
     Object? shieldReference = freezed,
     Object? walletAddress = freezed,
+    Object? symbol = freezed,
     Object? tokenName = freezed,
   }) {
     return _then(_value.copyWith(
-      registerHash: null == registerHash
+      registerHash: freezed == registerHash
           ? _value.registerHash
           : registerHash // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       expireMoment: null == expireMoment
           ? _value.expireMoment
           : expireMoment // ignore: cast_nullable_to_non_nullable
@@ -428,6 +473,10 @@ class _$ShieldHistoryCopyWithImpl<$Res, $Val extends ShieldHistory>
       walletAddress: freezed == walletAddress
           ? _value.walletAddress
           : walletAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      symbol: freezed == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
               as String?,
       tokenName: freezed == tokenName
           ? _value.tokenName
@@ -446,7 +495,7 @@ abstract class _$$ShieldHistoryImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String registerHash,
+      {String? registerHash,
       String expireMoment,
       double tokenAmount,
       double tokenPrice,
@@ -465,6 +514,7 @@ abstract class _$$ShieldHistoryImplCopyWith<$Res>
       String? settlementToken,
       String? shieldReference,
       String? walletAddress,
+      String? symbol,
       String? tokenName});
 }
 
@@ -481,7 +531,7 @@ class __$$ShieldHistoryImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? registerHash = null,
+    Object? registerHash = freezed,
     Object? expireMoment = null,
     Object? tokenAmount = null,
     Object? tokenPrice = null,
@@ -500,13 +550,14 @@ class __$$ShieldHistoryImplCopyWithImpl<$Res>
     Object? settlementToken = freezed,
     Object? shieldReference = freezed,
     Object? walletAddress = freezed,
+    Object? symbol = freezed,
     Object? tokenName = freezed,
   }) {
     return _then(_$ShieldHistoryImpl(
-      registerHash: null == registerHash
+      registerHash: freezed == registerHash
           ? _value.registerHash
           : registerHash // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       expireMoment: null == expireMoment
           ? _value.expireMoment
           : expireMoment // ignore: cast_nullable_to_non_nullable
@@ -578,6 +629,10 @@ class __$$ShieldHistoryImplCopyWithImpl<$Res>
       walletAddress: freezed == walletAddress
           ? _value.walletAddress
           : walletAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      symbol: freezed == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
               as String?,
       tokenName: freezed == tokenName
           ? _value.tokenName
@@ -610,13 +665,14 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
       this.settlementToken,
       this.shieldReference,
       this.walletAddress,
+      this.symbol,
       this.tokenName});
 
   factory _$ShieldHistoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$ShieldHistoryImplFromJson(json);
 
   @override
-  final String registerHash;
+  final String? registerHash;
   @override
   final String expireMoment;
   @override
@@ -654,11 +710,13 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
   @override
   final String? walletAddress;
   @override
+  final String? symbol;
+  @override
   final String? tokenName;
 
   @override
   String toString() {
-    return 'ShieldHistory(registerHash: $registerHash, expireMoment: $expireMoment, tokenAmount: $tokenAmount, tokenPrice: $tokenPrice, tokenValue: $tokenValue, monthlyFee: $monthlyFee, totalFeeValue: $totalFeeValue, totalFeeInInsurance: $totalFeeInInsurance, settlementAmount: $settlementAmount, selectedMonth: $selectedMonth, isPaid: $isPaid, type: $type, state: $state, paidHash: $paidHash, paidMoment: $paidMoment, registerMoment: $registerMoment, settlementToken: $settlementToken, shieldReference: $shieldReference, walletAddress: $walletAddress, tokenName: $tokenName)';
+    return 'ShieldHistory(registerHash: $registerHash, expireMoment: $expireMoment, tokenAmount: $tokenAmount, tokenPrice: $tokenPrice, tokenValue: $tokenValue, monthlyFee: $monthlyFee, totalFeeValue: $totalFeeValue, totalFeeInInsurance: $totalFeeInInsurance, settlementAmount: $settlementAmount, selectedMonth: $selectedMonth, isPaid: $isPaid, type: $type, state: $state, paidHash: $paidHash, paidMoment: $paidMoment, registerMoment: $registerMoment, settlementToken: $settlementToken, shieldReference: $shieldReference, walletAddress: $walletAddress, symbol: $symbol, tokenName: $tokenName)';
   }
 
   @override
@@ -701,6 +759,7 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
                 other.shieldReference == shieldReference) &&
             (identical(other.walletAddress, walletAddress) ||
                 other.walletAddress == walletAddress) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.tokenName, tokenName) ||
                 other.tokenName == tokenName));
   }
@@ -728,6 +787,7 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
         settlementToken,
         shieldReference,
         walletAddress,
+        symbol,
         tokenName
       ]);
 
@@ -749,7 +809,7 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
 
 abstract class _ShieldHistory implements ShieldHistory {
   const factory _ShieldHistory(
-      {required final String registerHash,
+      {required final String? registerHash,
       required final String expireMoment,
       required final double tokenAmount,
       required final double tokenPrice,
@@ -768,13 +828,14 @@ abstract class _ShieldHistory implements ShieldHistory {
       final String? settlementToken,
       final String? shieldReference,
       final String? walletAddress,
+      final String? symbol,
       final String? tokenName}) = _$ShieldHistoryImpl;
 
   factory _ShieldHistory.fromJson(Map<String, dynamic> json) =
       _$ShieldHistoryImpl.fromJson;
 
   @override
-  String get registerHash;
+  String? get registerHash;
   @override
   String get expireMoment;
   @override
@@ -811,6 +872,8 @@ abstract class _ShieldHistory implements ShieldHistory {
   String? get shieldReference;
   @override
   String? get walletAddress;
+  @override
+  String? get symbol;
   @override
   String? get tokenName;
 

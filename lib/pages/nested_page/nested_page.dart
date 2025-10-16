@@ -19,6 +19,7 @@ class _NestedPageState extends State<NestedPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      hide: widget.child.currentIndex == 2,
       body: SafeArea(
         child: widget.child,
       ),
@@ -55,7 +56,7 @@ class _BottomNav extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _NavItem(
-            text: 'History',
+            text: 'Guard',
             src: 'assets/icons/clock.svg',
             withBackground: false,
             onTap: shell.goBranch,

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:auto_shield/core/design_system/theme.dart';
+import 'package:flutter/material.dart';
 
 extension BuildContextX on BuildContext {
   ThemeData get theme => Theme.of(this);

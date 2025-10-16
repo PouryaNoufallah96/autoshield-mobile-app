@@ -13,6 +13,9 @@ _$WalletStatsImpl _$$WalletStatsImplFromJson(Map<String, dynamic> json) =>
       balance: (json['balance'] as num).toDouble(),
       covered: (json['covered'] as num).toDouble(),
       availableForCover: (json['availableForCover'] as num).toDouble(),
+      coveredValue: (json['coveredValue'] as num).toDouble(),
+      availableForCoverValue:
+          (json['availableForCoverValue'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$WalletStatsImplToJson(_$WalletStatsImpl instance) =>
@@ -22,11 +25,13 @@ Map<String, dynamic> _$$WalletStatsImplToJson(_$WalletStatsImpl instance) =>
       'balance': instance.balance,
       'covered': instance.covered,
       'availableForCover': instance.availableForCover,
+      'coveredValue': instance.coveredValue,
+      'availableForCoverValue': instance.availableForCoverValue,
     };
 
 _$ShieldHistoryImpl _$$ShieldHistoryImplFromJson(Map<String, dynamic> json) =>
     _$ShieldHistoryImpl(
-      registerHash: json['registerHash'] as String,
+      registerHash: json['registerHash'] as String?,
       expireMoment: json['expireMoment'] as String,
       tokenAmount: (json['tokenAmount'] as num).toDouble(),
       tokenPrice: (json['tokenPrice'] as num).toDouble(),
@@ -45,6 +50,7 @@ _$ShieldHistoryImpl _$$ShieldHistoryImplFromJson(Map<String, dynamic> json) =>
       settlementToken: json['settlementToken'] as String?,
       shieldReference: json['shieldReference'] as String?,
       walletAddress: json['walletAddress'] as String?,
+      symbol: json['symbol'] as String?,
       tokenName: json['tokenName'] as String?,
     );
 
@@ -69,6 +75,7 @@ Map<String, dynamic> _$$ShieldHistoryImplToJson(_$ShieldHistoryImpl instance) =>
       'settlementToken': instance.settlementToken,
       'shieldReference': instance.shieldReference,
       'walletAddress': instance.walletAddress,
+      'symbol': instance.symbol,
       'tokenName': instance.tokenName,
     };
 

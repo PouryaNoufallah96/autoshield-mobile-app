@@ -8,10 +8,12 @@ class AppScaffold extends Scaffold {
     super.bottomNavigationBar,
     Widget? body,
     bool isTop = false,
+    bool hide = false,
   }) : super(
           body: _AppScaffold(
             key: key,
             isTop: isTop,
+            hide: hide,
             child: body,
           ),
         );
@@ -21,29 +23,34 @@ class _AppScaffold extends StatelessWidget {
   const _AppScaffold({
     required this.child,
     required this.isTop,
+    required this.hide,
     super.key,
   });
 
   final Widget? child;
   final bool isTop;
+  final bool hide;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
-            child: _Dot(
-          isTop: isTop,
-        )),
+        if (!hide)
+          Positioned.fill(
+            child: DotEffect(
+              isTop: isTop,
+            ),
+          ),
         if (child != null) child!,
       ],
     );
   }
 }
 
-class _Dot extends HookWidget {
-  const _Dot({
+class DotEffect extends HookWidget {
+  const DotEffect({
     required this.isTop,
+    super.key,
   });
 
   final bool isTop;
@@ -88,8 +95,8 @@ class _Painter extends CustomPainter {
 
     final rows = width ~/ 10;
     final columns = height ~/ 10;
-    final opacity = 50 + 8 * controller.value;
-    final radius = 3 + controller.value;
+    final opacity = 24 + 2 * controller.value;
+    final radius = 2.4 + controller.value;
 
     for (var column = 0; column < columns; column++) {
       for (var row = 0; row < rows; row++) {

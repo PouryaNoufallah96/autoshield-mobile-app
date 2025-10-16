@@ -11,6 +11,8 @@ class WalletStats with _$WalletStats {
     required double balance,
     required double covered,
     required double availableForCover,
+    required double coveredValue,
+    required double availableForCoverValue,
   }) = _WalletStats;
 
   factory WalletStats.fromJson(Map<String, dynamic> json) =>
@@ -20,7 +22,7 @@ class WalletStats with _$WalletStats {
 @freezed
 class ShieldHistory with _$ShieldHistory {
   const factory ShieldHistory({
-    required String registerHash,
+    required String? registerHash,
     required String expireMoment,
     required double tokenAmount,
     required double tokenPrice,
@@ -39,6 +41,7 @@ class ShieldHistory with _$ShieldHistory {
     String? settlementToken,
     String? shieldReference,
     String? walletAddress,
+    String? symbol,
     String? tokenName,
   }) = _ShieldHistory;
 
@@ -92,7 +95,7 @@ enum ShieldType {
   @JsonValue('Premium')
   premium('Premium'),
   @JsonValue('XShield')
-  xShield('XShield');
+  xShield('X');
 
   const ShieldType(this.key);
   final String key;

@@ -12,7 +12,7 @@ class AddShieldBloc extends Bloc<AddShieldEvent, AddShieldState> {
     required ShieldService shieldService,
     required this.tokenName,
   })  : _shieldService = shieldService,
-        super(const AddShieldState()) {
+        super(const AddShieldState(month: ShieldMonth.one)) {
     on<_ChangeStep>(_onChangeStep);
     on<_ChangeMonth>(_onChangeMonth);
     on<_ChangeQuantity>(_onChangeQuantity);

@@ -15,7 +15,7 @@ class ShieldService {
     required int selectedMonth,
   }) async {
     final res = await _adapter.requestUri<dynamic>(
-        Uri.parse('Shield/GetWalletState'),
+        Uri.parse('Shield/CreateShield'),
         method: HttpMethod.post,
         body: {
           'tokenName': tokenName,
@@ -46,7 +46,15 @@ class ShieldService {
 
     List<ShieldConfig> parse(Map<String, dynamic>? data) {
       final configs = (data!['data'] as Map<String, dynamic>).entries.map((e) {
-        final body = {'name': e.key, ...(e.value as Map<String, dynamic>)};
+        final body = {
+          'name': switch (e.key.toLowerCase()) {
+            'standard' => 'Standard',
+            'premium' => 'Premium',
+            'xshield' => 'X',
+            _ => e.key,
+          },
+          ...(e.value as Map<String, dynamic>)
+        };
         return ShieldConfig.fromJson(body);
       });
 

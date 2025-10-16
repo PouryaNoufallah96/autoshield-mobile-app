@@ -91,6 +91,7 @@ class DashedBorderPainter extends CustomPainter {
       ..color = color
       ..style = PaintingStyle.stroke
       ..strokeJoin = StrokeJoin.round
+      ..strokeCap = StrokeCap.round
       ..strokeWidth = strokeWidth;
 
     final dashed = _dashPath(path, dashArray);

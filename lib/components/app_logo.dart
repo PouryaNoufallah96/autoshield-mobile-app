@@ -38,8 +38,8 @@ class AppLogo extends HookWidget {
     return Transform.translate(
       offset: Offset(0, withAnimation ? dy : 0),
       child: Assets.images.appIcon.image(
-        height: 150,
-        width: 113,
+        height: 200,
+        width: 200,
       ),
     );
   }

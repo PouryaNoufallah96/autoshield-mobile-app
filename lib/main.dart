@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/blocs/cubit/shield_config_cubit.dart';
 import 'package:auto_shield/core/blocs/preferences_bloc/preferences_bloc.dart';
 import 'package:auto_shield/core/blocs/reown/reown_bloc.dart';
@@ -28,7 +29,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:reown_appkit/modal/theme/public/appkit_modal_theme_widget.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:toastification/toastification.dart';
-import 'package:auto_shield/components/app_scaffold.dart';
 
 part 'router/router.dart';
 
@@ -76,7 +76,7 @@ class AutoShieldAppState extends State<AutoShieldApp> with AutoShieldAppRouter {
             ),
             child: MaterialApp.router(
               routerConfig: appRouter,
-              title: 'Auto shield',
+              title: 'Meta Coin Guard',
               theme: AutoShieldTheme()(isDark),
               builder: (context, child) {
                 return RepositoryProvider(

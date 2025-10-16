@@ -33,34 +33,24 @@ class _AuthPage extends StatelessWidget {
         body: Column(
           children: [
             const Spacer(),
-
             Assets.images.logoText.svg(),
-            // Center(
-            //   child: Text(
-            //     'GainX',
-            //     style: GoogleFonts.poppins(
-            //       fontSize: 24,
-            //       fontWeight: FontWeight.w400,
-            //     ),
-            //   ),
-            // ),
             const SizedBox(height: 36),
             const Align(
                 child: AppLogo(
               withAnimation: false,
             )),
-            const SizedBox(height: 49),
-            Text(
+            const SizedBox(height: 24),
+            const Text(
               'Secure Your Tokens, Protect Your Future',
               style: TextStyle(
-                fontFamily: Assets.fonts.centraNo1Thin,
+                fontFamily: 'CentraNo1-Thin',
                 fontSize: 16,
                 fontWeight: FontWeight.w300,
-                color: const Color(0xff71717A),
+                color: Color(0xff71717A),
               ),
               textAlign: TextAlign.center,
             ),
-            const Spacer(),
+            const Spacer(flex: 2),
             _Auth(
               appKit: context.read<ReownService>().appKitModal,
             ),

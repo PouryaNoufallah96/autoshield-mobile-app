@@ -1,4 +1,3 @@
-import 'package:auto_shield/gen/assets.gen.dart';
 import 'package:auto_shield/pages/history/widgets/active_items/active_items.dart';
 import 'package:auto_shield/pages/history/widgets/expired_items/expired_items.dart';
 import 'package:flutter/material.dart';
@@ -13,26 +12,27 @@ class HistoryPage extends HookWidget {
 
     return Column(
       children: [
-        Text(
+        const SizedBox(height: 23),
+        const Text(
           'Shield',
           style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontFamily: Assets.fonts.centraNo1Medium,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'CentraNo1-Medium',
             fontSize: 16,
           ),
         ),
         const SizedBox(height: 22),
         TabBar(
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             fontWeight: FontWeight.w700,
-            fontFamily: Assets.fonts.centraNo1Bold,
+            fontFamily: 'CentraNo1-Bold',
             fontSize: 16,
           ),
-          unselectedLabelStyle: TextStyle(
+          unselectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.w400,
-            fontFamily: Assets.fonts.centraNo1Book,
+            fontFamily: 'CentraNo1-Book',
             fontSize: 16,
-            color: const Color(0xff71717A),
+            color: Color(0xff71717A),
           ),
           indicatorSize: TabBarIndicatorSize.tab,
           controller: tabController,

@@ -31,22 +31,13 @@ class QuantityStep extends HookWidget {
                 color: Color(0xff202321),
               ),
             ),
-            InkWell(
-              borderRadius: BorderRadius.circular(4),
-              onTap: () {
-                controller.text = '$available';
-                context
-                    .read<AddShieldBloc>()
-                    .add(AddShieldEvent.changeQuantity(available));
-              },
-              child: Text(
-                'Max: ${AppNumberFormatter.format(available)}',
-                style: const TextStyle(
-                  fontFamily: 'CentraNo1-Book',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff71717A),
-                ),
+            Text(
+              'Balance: ${AppNumberFormatter.format(available, maxDecimal: 6)}',
+              style: const TextStyle(
+                fontFamily: 'CentraNo1-Book',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Color(0xff71717A),
               ),
             ),
           ],
@@ -66,19 +57,33 @@ class QuantityStep extends HookWidget {
           inputFormatters: [
             SwapAmountFormatter(
               max: '$available',
-              maxDecimals: 12,
             ),
           ],
           cursorHeight: 24,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             hintText: 'Quantity',
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontFamily: 'CentraNo1-Book',
               fontSize: 16,
               fontWeight: FontWeight.w400,
               color: Color(0xff71717A),
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            suffixIcon: TextButton(
+              onPressed: () {
+                final amount = double.tryParse(
+                    AppNumberFormatter.format(available, maxDecimal: 6));
+
+                controller.text = '$amount';
+                context
+                    .read<AddShieldBloc>()
+                    .add(AddShieldEvent.changeQuantity(amount ?? 0));
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: context.colorExtension.neutral,
+              ),
+              child: const Text('Max'),
+            ),
           ),
           onChanged: (value) {
             final amount = double.tryParse(value);
@@ -86,6 +91,7 @@ class QuantityStep extends HookWidget {
             if (amount == null) {
               return;
             }
+
             context
                 .read<AddShieldBloc>()
                 .add(AddShieldEvent.changeQuantity(amount));
@@ -233,27 +239,43 @@ class _SelectPayOfTime extends StatelessWidget {
                             horizontal: 24,
                             vertical: 16,
                           ),
-                          child: Text.rich(
-                            TextSpan(
-                              text: '${e.month}',
-                              style: const TextStyle(
-                                fontFamily: 'CentraNo1-Medium',
-                                fontSize: 20,
-                                color: Color(0xff71717A),
-                                fontWeight: FontWeight.w500,
-                              ),
-                              children: const [
-                                TextSpan(
-                                  text: '   month',
-                                  style: TextStyle(
-                                    fontFamily: 'CentraNo1-Book',
-                                    fontSize: 16,
-                                    color: Color(0xff71717A),
-                                    fontWeight: FontWeight.w400,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text.rich(
+                                  TextSpan(
+                                    text: '${e.month}',
+                                    style: const TextStyle(
+                                      fontFamily: 'CentraNo1-Medium',
+                                      fontSize: 20,
+                                      color: Color(0xff71717A),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    children: const [
+                                      TextSpan(
+                                        text: '   month',
+                                        style: TextStyle(
+                                          fontFamily: 'CentraNo1-Book',
+                                          fontSize: 16,
+                                          color: Color(0xff71717A),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              if (e.month > 3)
+                                const Text(
+                                  'With Discount',
+                                  style: TextStyle(
+                                    fontFamily: 'CentraNo1-Book',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff71717A),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                       ),

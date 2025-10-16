@@ -1,7 +1,6 @@
 import 'package:auto_shield/core/blocs/prices/price_bloc.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/utils/number_formatter.dart';
-import 'package:auto_shield/gen/assets.gen.dart';
 import 'package:auto_shield/pages/add_shield/bloc/add_shield_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +29,6 @@ class ShieldInfo extends StatelessWidget {
               return const SizedBox.shrink();
             }
             final month = state.month!.month;
-
-            print(state.config);
 
             final value = state.quantity! * price;
             final amount = state.quantity!;
@@ -108,20 +105,20 @@ class _Info extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            fontFamily: Assets.fonts.centraNo1Book,
-            color: const Color(0xff71717A),
+            fontFamily: 'CentraNo1-Book',
+            color: Color(0xff71717A),
           ),
         ),
         Text(
           '${AppNumberFormatter.format(value, maxDecimal: 4)} $sign',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            fontFamily: Assets.fonts.centraNo1Medium,
-            color: const Color(0xff121314),
+            fontFamily: 'CentraNo1-Medium',
+            color: Color(0xff121314),
           ),
         ),
       ],

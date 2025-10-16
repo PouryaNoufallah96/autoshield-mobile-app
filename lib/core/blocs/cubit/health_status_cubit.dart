@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:auto_shield/core/services/status_service/models.dart';
 import 'package:auto_shield/core/services/status_service/status_service.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
 part 'health_status_state.dart';
 

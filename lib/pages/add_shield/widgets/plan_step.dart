@@ -2,7 +2,6 @@ import 'package:auto_shield/components/dashed_button.dart';
 import 'package:auto_shield/core/blocs/cubit/shield_config_cubit.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/utils/number_formatter.dart';
-import 'package:auto_shield/gen/assets.gen.dart';
 import 'package:auto_shield/pages/add_shield/bloc/add_shield_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +68,7 @@ class _Config extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
             strokeWidth: 2,
             radius: 12,
-            dashArray: [4, 2],
+            dashArray: [2, 4],
           ),
           child: InkWell(
             onTap: () {
@@ -93,30 +92,29 @@ class _Config extends StatelessWidget {
                   ),
                   Text(
                     config.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
-                      color: const Color(0xff202321),
+                      color: Color(0xff202321),
                       fontWeight: FontWeight.w500,
-                      fontFamily: Assets.fonts.centraNo1Medium,
+                      fontFamily: 'CentraNo1-Medium',
                     ),
                   ),
                   const Spacer(),
-                  Text(
+                  const Text(
                     'Monthly Fee: ',
                     style: TextStyle(
-                      fontSize: 12,
-                      color: const Color(0xff202321),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: Assets.fonts.centraNo1Book,
-                    ),
+                        fontSize: 12,
+                        color: Color(0xff202321),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'CentraNo1-Book'),
                   ),
                   Text(
                     '$feeFormated %',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
-                      color: const Color(0xff202321),
+                      color: Color(0xff202321),
                       fontWeight: FontWeight.w500,
-                      fontFamily: Assets.fonts.centraNo1Medium,
+                      fontFamily: 'CentraNo1-Medium',
                     ),
                   )
                 ],

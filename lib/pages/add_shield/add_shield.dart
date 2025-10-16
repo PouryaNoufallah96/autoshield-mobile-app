@@ -1,7 +1,7 @@
 import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
-import 'package:auto_shield/gen/assets.gen.dart';
 import 'package:auto_shield/pages/add_shield/bloc/add_shield_bloc.dart';
+import 'package:auto_shield/pages/add_shield/widgets/confirm.dart';
 import 'package:auto_shield/pages/add_shield/widgets/info.dart';
 import 'package:auto_shield/pages/add_shield/widgets/plan_step.dart';
 import 'package:auto_shield/pages/add_shield/widgets/quantity_step.dart';
@@ -37,29 +37,55 @@ class _Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: AppScaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              FontAwesomeIcons.arrowLeftLong,
-              color: Color(0xff4024D1),
-            ),
-          ),
-          actions: const [
-            IconButton(
-              onPressed: null,
-              icon: Icon(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        final step = context.read<AddShieldBloc>().state.step;
+        final index = step.index;
+
+        if (index == 0) {
+          Navigator.pop(context);
+        } else {
+          final p = AddShieldStep.values[index - 1];
+          context.read<AddShieldBloc>().add(AddShieldEvent.changeStep(p));
+        }
+      },
+      child: SafeArea(
+        child: AppScaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                final step = context.read<AddShieldBloc>().state.step;
+                final index = step.index;
+
+                if (index == 0) {
+                  Navigator.pop(context);
+                } else {
+                  final p = AddShieldStep.values[index - 1];
+                  context
+                      .read<AddShieldBloc>()
+                      .add(AddShieldEvent.changeStep(p));
+                }
+              },
+              icon: const Icon(
                 FontAwesomeIcons.arrowLeftLong,
-                color: Colors.transparent,
+                color: Color(0xff4024D1),
               ),
-            )
-          ],
-          centerTitle: true,
-          title: const _Stepper(),
+            ),
+            actions: const [
+              IconButton(
+                onPressed: null,
+                icon: Icon(
+                  FontAwesomeIcons.arrowLeftLong,
+                  color: Colors.transparent,
+                ),
+              )
+            ],
+            centerTitle: true,
+            title: const _Stepper(),
+          ),
+          body: const _Body(),
         ),
-        body: const _Body(),
       ),
     );
   }
@@ -85,10 +111,10 @@ class _Body extends StatelessWidget {
                 builder: (context, state) {
                   return Text(
                     state,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
-                      fontFamily: Assets.fonts.centraNo1Book,
-                      color: const Color(0xff202321),
+                      fontFamily: 'CentraNo1-Book',
+                      color: Color(0xff202321),
                     ),
                   );
                 },
@@ -105,7 +131,7 @@ class _Body extends StatelessWidget {
                       switch (state) {
                         AddShieldStep.quantity => const QuantityStep(),
                         AddShieldStep.config => const PlanStep(),
-                        AddShieldStep.confirm => const SizedBox(),
+                        AddShieldStep.confirm => const ConfirmShieldInfo(),
                       },
                     ],
                   );
@@ -135,7 +161,7 @@ class _Button extends StatelessWidget {
         } else if (state.step == AddShieldStep.config) {
           return state.config != null;
         }
-        return false;
+        return true;
       },
       builder: (context, isValidated) {
         return BlocBuilder<AddShieldBloc, AddShieldState>(
@@ -157,33 +183,41 @@ class _Button extends StatelessWidget {
                   ),
                   minimumSize: const Size.fromHeight(48),
                 ),
-                onPressed: !isValidated
-                    ? null
-                    : () {
-                        if (step == AddShieldStep.quantity) {
-                          context.read<AddShieldBloc>().add(
-                              const AddShieldEvent.changeStep(
-                                  AddShieldStep.config));
+                onPressed:
+                    !isValidated || status == AddShieldSubmitStatus.inProgress
+                        ? null
+                        : () {
+                            if (step == AddShieldStep.quantity) {
+                              context.read<AddShieldBloc>().add(
+                                  const AddShieldEvent.changeStep(
+                                      AddShieldStep.config));
 
-                          return;
-                        }
+                              return;
+                            }
 
-                        if (step == AddShieldStep.config) {
-                          context.read<AddShieldBloc>().add(
-                              const AddShieldEvent.changeStep(
-                                  AddShieldStep.confirm));
-                          return;
-                        }
-                      },
+                            if (step == AddShieldStep.config) {
+                              context.read<AddShieldBloc>().add(
+                                  const AddShieldEvent.changeStep(
+                                      AddShieldStep.confirm));
+                              return;
+                            }
+
+                            if (step == AddShieldStep.confirm) {
+                              context
+                                  .read<AddShieldBloc>()
+                                  .add(const AddShieldEvent.submit());
+                              return;
+                            }
+                          },
                 child: status == AddShieldSubmitStatus.inProgress
                     ? const Center(
                         child: CircularProgressIndicator.adaptive(),
                       )
                     : Text(
                         text,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
-                          fontFamily: Assets.fonts.centraNo1Book,
+                          fontFamily: 'CentraNo1-Book',
                           fontWeight: FontWeight.w500,
                         ),
                       ),

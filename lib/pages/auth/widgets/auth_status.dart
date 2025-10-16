@@ -1,6 +1,6 @@
+import 'package:auto_shield/core/utils/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:auto_shield/core/utils/theme_utils.dart';
 import 'package:reown_appkit/modal/appkit_modal_impl.dart';
 import 'package:reown_appkit/modal/i_appkit_modal_impl.dart';
 import 'package:reown_appkit/modal/widgets/buttons/connect_button.dart';
