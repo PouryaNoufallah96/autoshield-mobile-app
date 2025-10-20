@@ -100,8 +100,7 @@ class HistoryItem extends StatelessWidget {
                     children: [
                       AppToken(
                         size: 44,
-                        src:
-                            'assets/images/${item.tokenName?.toLowerCase()}.png',
+                        src: 'assets/images/${item.symbol?.toLowerCase()}.png',
                         name: item.symbol ?? item.tokenName ?? '',
                         textStyle: const TextStyle(
                           fontSize: 16,
@@ -163,191 +162,217 @@ class _Details extends StatelessWidget {
         ? DateFormat('yyyy/MM/dd').format(registerMomentRawDate)
         : item.registerMoment ?? '--';
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          spacing: 10,
-          children: [
-            Stack(
+    return BlocSelector<PriceBloc, PriceState, double>(
+      selector: (state) {
+        return state.prices
+                .firstWhereOrNull((e) => e.tokenName == item.symbol)
+                ?.price ??
+            0;
+      },
+      builder: (context, price) {
+        final value = item.tokenAmount * price;
+        final tokenValue = item.tokenValue;
+
+        final changePercent = ((value - tokenValue) / tokenValue) * 100;
+
+        final percentColor = switch (changePercent) {
+          0 => const Color(0xffC5C5C5),
+          > 0 => const Color(0xff22C55E),
+          _ => const Color(0xffF01616),
+        };
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              spacing: 10,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 44),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: const Color(0xffF8F8F8),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 44, 16, 16),
-                        child: Column(
-                          spacing: 2,
-                          children: [
-                            Text(
-                              item.symbol ?? '',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'CentraNo1-Medium',
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              item.tokenName ?? '',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'CentraNo1-Book',
-                                color: Color(0xff71717A),
-                              ),
-                            ),
-                            const SizedBox(height: 18),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: const Color(0xffE4F8EC),
-                                borderRadius: BorderRadius.circular(12),
-                                border:
-                                    Border.all(color: const Color(0xff22C55E)),
-                              ),
-                              child: const SizedBox(
-                                width: double.infinity,
-                                child: Padding(
-                                  padding: EdgeInsetsGeometry.symmetric(
-                                      horizontal: 16, vertical: 14),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        r'0.00 $',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'CentraNo1-Medium',
-                                          color: Color(0xff202321),
-                                        ),
-                                      ),
-                                      Text(
-                                        '+ 2.05 %',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'CentraNo1-Medium',
-                                          color: Color(0xff22C55E),
-                                        ),
-                                      ),
-                                    ],
+                Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 44),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: const Color(0xffF8F8F8),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 44, 16, 16),
+                            child: Column(
+                              spacing: 2,
+                              children: [
+                                Text(
+                                  item.symbol ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'CentraNo1-Medium',
+                                    color: Colors.black,
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
+                                Text(
+                                  item.tokenName ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'CentraNo1-Book',
+                                    color: Color(0xff71717A),
+                                  ),
+                                ),
+                                const SizedBox(height: 18),
+                                DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: percentColor.withValues(alpha: .16),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: percentColor,
+                                    ),
+                                  ),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsetsGeometry.symmetric(
+                                              horizontal: 16, vertical: 14),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${AppNumberFormatter.format(value, maxDecimal: 6)} \$',
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'CentraNo1-Medium',
+                                              color: Color(0xff202321),
+                                            ),
+                                          ),
+                                          Text(
+                                            '${AppNumberFormatter.format(changePercent, maxDecimal: 2)} %',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'CentraNo1-Medium',
+                                              color: percentColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Center(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        color: const Color(0xffF8F8F8),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Image.asset(
-                        'assets/images/$token.png',
-                        height: 64,
-                        width: 64,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: const Color(0xffF8F8F8),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  spacing: 24,
-                  children: [
-                    _Row(
-                      title: 'Contract Start Date',
-                      value: registerMoment,
-                    ),
-                    _Row(
-                      title: 'Contract Expiration Date',
-                      value: expireMoment,
-                    ),
-                    _Row(
-                      title: 'Coverage Quantity',
-                      value: '${item.tokenAmount}',
-                    ),
-                    _Row(
-                      title: 'Coverage Value',
-                      value: '${item.tokenValue} \$',
-                    ),
-                    _Row(
-                      title: 'Number of Month',
-                      value: '${item.selectedMonth}',
-                    ),
-                    _Row(
-                      title: 'Auto Shield Plan',
-                      value: item.type.key,
-                    ),
-                    _Row(
-                      title: 'Monthly Fee',
-                      value: AppNumberFormatter.format(
-                        item.monthlyFee,
-                        maxDecimal: 2,
-                      ),
-                    ),
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: const Color(0xffF0EDFB),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xff4024D1)),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsetsGeometry.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Loyalty Return',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'CentraNo1-Book',
-                                color: Color(0xff202321),
-                              ),
-                            ),
-                            Text(
-                              r'0.00 $',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'CentraNo1-Medium',
-                                color: Color(0xff202321),
-                              ),
-                            ),
-                          ],
+                    Center(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                            color: const Color(0xffF8F8F8),
+                            borderRadius: BorderRadius.circular(100)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Image.asset(
+                            'assets/images/$token.png',
+                            height: 64,
+                            width: 64,
+                          ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              ),
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: const Color(0xffF8F8F8),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      spacing: 24,
+                      children: [
+                        _Row(
+                          title: 'Contract Start Date',
+                          value: registerMoment,
+                        ),
+                        _Row(
+                          title: 'Contract Expiration Date',
+                          value: expireMoment,
+                        ),
+                        _Row(
+                          title: 'Coverage Quantity',
+                          value: AppNumberFormatter.format(
+                            item.tokenAmount,
+                            maxDecimal: 7,
+                          ),
+                        ),
+                        _Row(
+                          title: 'Coverage Value',
+                          value: '${item.tokenValue} \$',
+                        ),
+                        _Row(
+                          title: 'Number of Month',
+                          value: '${item.selectedMonth}',
+                        ),
+                        _Row(
+                          title: 'Auto Shield Plan',
+                          value: item.type.key,
+                        ),
+                        _Row(
+                          title: 'Monthly Fee',
+                          value: '${AppNumberFormatter.format(
+                            item.monthlyFee,
+                            maxDecimal: 2,
+                          )} %',
+                        ),
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF0EDFB),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: const Color(0xff4024D1)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsetsGeometry.all(16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Loyalty Return',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'CentraNo1-Book',
+                                    color: Color(0xff202321),
+                                  ),
+                                ),
+                                Text(
+                                  '${AppNumberFormatter.format(item.settlementAmount)} ${item.settlementToken}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'CentraNo1-Medium',
+                                    color: Color(0xff202321),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+              ],
             ),
-            const SizedBox(height: 40),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
