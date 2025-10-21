@@ -29,16 +29,22 @@ class SocketService {
   }) : _authInterceptor = authInterceptor;
   static const String _baseUrl = 'https://autoapi.rzprime.com';
   static const String _pricesHubPath = '/hubs/prices';
+  static const String _shieldHubPath = '/hubs/NotifyShield';
 
   static const String _methodNotifyPrices = 'NotifyPrice';
+  static const String _methodShieldMessage = 'ShieldMessage';
 
   final AuthInterceptor _authInterceptor;
 
   HubConnection? _pricesConn;
+  HubConnection? _shieldConn;
 
   bool _pricesStarted = false;
+  bool _shieldStarted = false;
+  String? _address;
 
   final Set<String> _pricesHandlers = {_methodNotifyPrices};
+  final Set<String> _shieldHandlers = {_methodShieldMessage};
 
   final _controller = StreamController<HubEvent>.broadcast();
   Stream<HubEvent> get stream => _controller.stream.doOnData((event) {});
@@ -90,6 +96,51 @@ class SocketService {
     } on HttpError catch (_) {}
   }
 
+  Future<void> startSheild(String address) async {
+    await disconnectShield();
+
+    _address = address;
+    _shieldConn = await _buildConnection(_shieldHubPath);
+
+    _shieldConn!.on(_methodShieldMessage, (args) {
+      _controller.add(HubEvent(
+        name: _methodShieldMessage,
+        data: _normalizeArgs(args),
+      ));
+    });
+
+    _wireLifecycle(
+      _shieldConn!,
+      onReconnected: _invokeRegisterWalletIfReady,
+    );
+
+    try {
+      await _shieldConn!.start();
+      _shieldStarted = true;
+    } on HttpError catch (_) {}
+
+    await _invokeRegisterWalletIfReady();
+  }
+
+  Future<void> disconnectShield() async {
+    try {
+      if (_shieldConn != null) {
+        for (final m in _shieldHandlers) {
+          _shieldConn!.off(m);
+        }
+      }
+    } catch (_) {}
+
+    try {
+      if (_shieldStarted) {
+        await _shieldConn?.stop();
+      }
+    } catch (_) {}
+
+    _shieldStarted = false;
+    _shieldConn = null;
+  }
+
   Future<HubConnection> _buildConnection(String hubPath) async {
     final token = _getAccessToken();
 
@@ -130,6 +181,13 @@ class SocketService {
           await onReconnected();
         }
       });
+  }
+
+  Future<void> _invokeRegisterWalletIfReady() async {
+    if (_shieldConn == null || _address == null) return;
+    try {
+      await _shieldConn!.invoke('RegisterWallet', args: ['$_address']);
+    } catch (_) {}
   }
 
   dynamic _normalizeArgs(List<Object?>? args) {

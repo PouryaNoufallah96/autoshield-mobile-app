@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:auto_shield/components/app_scaffold.dart';
+import 'package:auto_shield/core/blocs/reown/reown_bloc.dart';
+import 'package:auto_shield/core/services/socket_service/socket_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rxdart/transformers.dart';
 
 class NestedPage extends StatefulWidget {
   const NestedPage({
@@ -16,6 +22,32 @@ class NestedPage extends StatefulWidget {
 }
 
 class _NestedPageState extends State<NestedPage> {
+  late final StreamSubscription<String?> _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _subscription = context
+        .read<ReownBloc>()
+        .stream
+        .startWith(context.read<ReownBloc>().state)
+        .map((event) => event.address ?? event.manualAddress)
+        .listen((address) {
+      if (address != null && context.mounted) {
+        context.read<SocketService>().startSheild(address);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    context.read<SocketService>().disconnectShield();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(

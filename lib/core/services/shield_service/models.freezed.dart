@@ -308,7 +308,6 @@ mixin _$ShieldHistory {
   double get totalFeeInInsurance => throw _privateConstructorUsedError;
   double get settlementAmount => throw _privateConstructorUsedError;
   int get selectedMonth => throw _privateConstructorUsedError;
-  bool get isPaid => throw _privateConstructorUsedError;
   ShieldType get type => throw _privateConstructorUsedError;
   ShieldState get state => throw _privateConstructorUsedError;
   String? get paidHash => throw _privateConstructorUsedError;
@@ -347,7 +346,6 @@ abstract class $ShieldHistoryCopyWith<$Res> {
       double totalFeeInInsurance,
       double settlementAmount,
       int selectedMonth,
-      bool isPaid,
       ShieldType type,
       ShieldState state,
       String? paidHash,
@@ -385,7 +383,6 @@ class _$ShieldHistoryCopyWithImpl<$Res, $Val extends ShieldHistory>
     Object? totalFeeInInsurance = null,
     Object? settlementAmount = null,
     Object? selectedMonth = null,
-    Object? isPaid = null,
     Object? type = null,
     Object? state = null,
     Object? paidHash = freezed,
@@ -438,10 +435,6 @@ class _$ShieldHistoryCopyWithImpl<$Res, $Val extends ShieldHistory>
           ? _value.selectedMonth
           : selectedMonth // ignore: cast_nullable_to_non_nullable
               as int,
-      isPaid: null == isPaid
-          ? _value.isPaid
-          : isPaid // ignore: cast_nullable_to_non_nullable
-              as bool,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -505,7 +498,6 @@ abstract class _$$ShieldHistoryImplCopyWith<$Res>
       double totalFeeInInsurance,
       double settlementAmount,
       int selectedMonth,
-      bool isPaid,
       ShieldType type,
       ShieldState state,
       String? paidHash,
@@ -541,7 +533,6 @@ class __$$ShieldHistoryImplCopyWithImpl<$Res>
     Object? totalFeeInInsurance = null,
     Object? settlementAmount = null,
     Object? selectedMonth = null,
-    Object? isPaid = null,
     Object? type = null,
     Object? state = null,
     Object? paidHash = freezed,
@@ -594,10 +585,6 @@ class __$$ShieldHistoryImplCopyWithImpl<$Res>
           ? _value.selectedMonth
           : selectedMonth // ignore: cast_nullable_to_non_nullable
               as int,
-      isPaid: null == isPaid
-          ? _value.isPaid
-          : isPaid // ignore: cast_nullable_to_non_nullable
-              as bool,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -656,7 +643,6 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
       required this.totalFeeInInsurance,
       required this.settlementAmount,
       required this.selectedMonth,
-      required this.isPaid,
       required this.type,
       required this.state,
       this.paidHash,
@@ -692,8 +678,6 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
   @override
   final int selectedMonth;
   @override
-  final bool isPaid;
-  @override
   final ShieldType type;
   @override
   final ShieldState state;
@@ -716,7 +700,7 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
 
   @override
   String toString() {
-    return 'ShieldHistory(registerHash: $registerHash, expireMoment: $expireMoment, tokenAmount: $tokenAmount, tokenPrice: $tokenPrice, tokenValue: $tokenValue, monthlyFee: $monthlyFee, totalFeeValue: $totalFeeValue, totalFeeInInsurance: $totalFeeInInsurance, settlementAmount: $settlementAmount, selectedMonth: $selectedMonth, isPaid: $isPaid, type: $type, state: $state, paidHash: $paidHash, paidMoment: $paidMoment, registerMoment: $registerMoment, settlementToken: $settlementToken, shieldReference: $shieldReference, walletAddress: $walletAddress, symbol: $symbol, tokenName: $tokenName)';
+    return 'ShieldHistory(registerHash: $registerHash, expireMoment: $expireMoment, tokenAmount: $tokenAmount, tokenPrice: $tokenPrice, tokenValue: $tokenValue, monthlyFee: $monthlyFee, totalFeeValue: $totalFeeValue, totalFeeInInsurance: $totalFeeInInsurance, settlementAmount: $settlementAmount, selectedMonth: $selectedMonth, type: $type, state: $state, paidHash: $paidHash, paidMoment: $paidMoment, registerMoment: $registerMoment, settlementToken: $settlementToken, shieldReference: $shieldReference, walletAddress: $walletAddress, symbol: $symbol, tokenName: $tokenName)';
   }
 
   @override
@@ -744,7 +728,6 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
                 other.settlementAmount == settlementAmount) &&
             (identical(other.selectedMonth, selectedMonth) ||
                 other.selectedMonth == selectedMonth) &&
-            (identical(other.isPaid, isPaid) || other.isPaid == isPaid) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.state, state) || other.state == state) &&
             (identical(other.paidHash, paidHash) ||
@@ -778,7 +761,6 @@ class _$ShieldHistoryImpl implements _ShieldHistory {
         totalFeeInInsurance,
         settlementAmount,
         selectedMonth,
-        isPaid,
         type,
         state,
         paidHash,
@@ -819,7 +801,6 @@ abstract class _ShieldHistory implements ShieldHistory {
       required final double totalFeeInInsurance,
       required final double settlementAmount,
       required final int selectedMonth,
-      required final bool isPaid,
       required final ShieldType type,
       required final ShieldState state,
       final String? paidHash,
@@ -854,8 +835,6 @@ abstract class _ShieldHistory implements ShieldHistory {
   double get settlementAmount;
   @override
   int get selectedMonth;
-  @override
-  bool get isPaid;
   @override
   ShieldType get type;
   @override

@@ -16,6 +16,7 @@ import 'package:auto_shield/pages/auth/auth.dart';
 import 'package:auto_shield/pages/history/history.dart';
 import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
 import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
+import 'package:auto_shield/pages/nested_page/bloc/notify_shield_bloc.dart';
 import 'package:auto_shield/pages/nested_page/nested_page.dart';
 import 'package:auto_shield/pages/settings/settings.dart';
 import 'package:flutter/material.dart';

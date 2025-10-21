@@ -200,7 +200,8 @@ class __AuthState extends State<_Auth> {
             },
           ),
         ),
-        if (canShowAction) ...[
+        // if (canShowAction) ...[
+        if (true) ...[
           Padding(
             padding: const EdgeInsets.fromLTRB(35, 32, 35, 0),
             child: ConstrainedBox(
@@ -217,14 +218,16 @@ class __AuthState extends State<_Auth> {
                               .add(ReownLogginButtonPressed());
                         }
                       },
-                child: Text(
-                  _isConnected
-                      ? 'Connected wallet'
-                      : 'Connect with WalletConnect',
-                  style: const TextStyle(
-                    fontFamily: 'CentraNo1-Medium',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                child: Center(
+                  child: Text(
+                    _isConnected
+                        ? 'Connected wallet'
+                        : 'Connect with WalletConnect',
+                    style: const TextStyle(
+                      fontFamily: 'CentraNo1-Medium',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

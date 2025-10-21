@@ -10,7 +10,7 @@ class AuthService {
 
   Future<NonceData?> getNonce(String walletAddress) async {
     final res = await _adapter.requestUri<Map<String, dynamic>>(
-      Uri.parse('User/GetNonceForApp'),
+      Uri.parse('User/GetNonce'),
       method: HttpMethod.post,
       body: {
         'walletAddress': walletAddress,

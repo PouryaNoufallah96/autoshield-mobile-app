@@ -71,7 +71,7 @@ class ShieldService {
     int page,
   ) async {
     return _getShields(
-      ['Active', 'Pending', 'WithdrawalToken'],
+      ['Active', 'Pending', 'Cancel'],
       page,
       24,
     );

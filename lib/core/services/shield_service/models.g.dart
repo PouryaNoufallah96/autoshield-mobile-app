@@ -41,7 +41,6 @@ _$ShieldHistoryImpl _$$ShieldHistoryImplFromJson(Map<String, dynamic> json) =>
       totalFeeInInsurance: (json['totalFeeInInsurance'] as num).toDouble(),
       settlementAmount: (json['settlementAmount'] as num).toDouble(),
       selectedMonth: (json['selectedMonth'] as num).toInt(),
-      isPaid: json['isPaid'] as bool,
       type: $enumDecode(_$ShieldTypeEnumMap, json['type']),
       state: $enumDecode(_$ShieldStateEnumMap, json['state']),
       paidHash: json['paidHash'] as String?,
@@ -66,7 +65,6 @@ Map<String, dynamic> _$$ShieldHistoryImplToJson(_$ShieldHistoryImpl instance) =>
       'totalFeeInInsurance': instance.totalFeeInInsurance,
       'settlementAmount': instance.settlementAmount,
       'selectedMonth': instance.selectedMonth,
-      'isPaid': instance.isPaid,
       'type': _$ShieldTypeEnumMap[instance.type]!,
       'state': _$ShieldStateEnumMap[instance.state]!,
       'paidHash': instance.paidHash,
@@ -89,7 +87,7 @@ const _$ShieldStateEnumMap = {
   ShieldState.pending: 'Pending',
   ShieldState.active: 'Active',
   ShieldState.expire: 'Expire',
-  ShieldState.withdrawalToken: 'WithdrawalToken',
+  ShieldState.cancel: 'Cancel',
 };
 
 _$ShieldConfigImpl _$$ShieldConfigImplFromJson(Map<String, dynamic> json) =>

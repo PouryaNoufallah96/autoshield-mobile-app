@@ -65,11 +65,8 @@ class ReownService {
         chainId: '56',
         chainIcon: '93564157-2e8e-4ce7-81df-b264dbee9b00',
         currency: 'BNB',
-        extraRpcUrls: [
-          'https://rpc.ankr.com/bsc/cea6f21cc6dc0df6ac58a42690aa0581b0e1981309f47385e0257994874b121e',
-        ],
         rpcUrl:
-            'https://special-sly-sanctuary.bsc.quiknode.pro/ce247854099f34d852fdeff393e6262ba7b3e7ca/',
+            'https://purple-proud-card.bsc.quiknode.pro/f9c9d9b7cc798a81f31d4db5f41a4f1beb3671d7/',
         explorerUrl: 'https://bscscan.com',
       ),
       // const ReownAppKitModalNetworkInfo(
@@ -90,13 +87,13 @@ class ReownService {
     ]);
 
     const metadata = PairingMetadata(
-      name: 'RZ Prime',
-      description: 'Swap & Gain',
-      url: 'https://rzprime.com',
-      icons: ['https://rzprime.com/icon.png'],
+      name: 'Meta Coin Guard',
+      description: 'Meta Coin Guard',
+      url: 'https://metacoinguard.com',
+      icons: ['https://metacoinguard.com/icon.png'],
       redirect: Redirect(
-        native: 'rzprime://',
-        universal: 'https://rzprime.com/modal',
+        native: 'metacoinguard://',
+        universal: 'https://metacoinguard.com/modal',
         linkMode: true,
       ),
     );

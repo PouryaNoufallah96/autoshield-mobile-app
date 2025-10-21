@@ -32,7 +32,6 @@ class ShieldHistory with _$ShieldHistory {
     required double totalFeeInInsurance,
     required double settlementAmount,
     required int selectedMonth,
-    required bool isPaid,
     required ShieldType type,
     required ShieldState state,
     String? paidHash,
@@ -108,6 +107,6 @@ enum ShieldState {
   active,
   @JsonValue('Expire')
   expire,
-  @JsonValue('WithdrawalToken')
-  withdrawalToken,
+  @JsonValue('Cancel')
+  cancel,
 }

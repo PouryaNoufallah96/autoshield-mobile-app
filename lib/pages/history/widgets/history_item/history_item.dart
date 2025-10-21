@@ -313,7 +313,8 @@ class _Details extends StatelessWidget {
                         ),
                         _Row(
                           title: 'Coverage Value',
-                          value: '${item.tokenValue} \$',
+                          value:
+                              '${AppNumberFormatter.format(item.tokenValue, maxDecimal: 6)} \$',
                         ),
                         _Row(
                           title: 'Number of Month',
@@ -351,7 +352,7 @@ class _Details extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${AppNumberFormatter.format(item.settlementAmount)} ${item.settlementToken}',
+                                  '${AppNumberFormatter.format(item.settlementAmount, maxDecimal: 6)} ${item.settlementToken}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,

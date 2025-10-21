@@ -47,6 +47,9 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
           builder: (context, state, navigationShell) {
             return MultiBlocProvider(
               providers: [
+                BlocProvider.value(
+                  value: context.read<ReownBloc>(),
+                ),
                 BlocProvider(
                   create: (context) => WalletStatsCubit(
                     shieldService: context.read(),
@@ -68,6 +71,11 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                   )..fetch(),
                   lazy: false,
                 ),
+                BlocProvider(
+                  create: (context) => NotifyShieldBloc(
+                    socketService: context.read(),
+                  )..add(const NotifyShieldEvent.started()),
+                )
               ],
               child: StreamBuilder(
                   stream: context
@@ -80,7 +88,14 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                       return AppScaffold();
                     }
 
-                    return NestedPage(child: navigationShell);
+                    return BlocListener<NotifyShieldBloc, NotifyShieldState>(
+                      listener: (context, state) {
+                        context.read<WalletStatsCubit>().fetch();
+                        context.read<ExpireHistoryCubit>().getHistory();
+                        context.read<ActiveHistoryCubit>().getHistory();
+                      },
+                      child: NestedPage(child: navigationShell),
+                    );
                   }),
             );
           },
