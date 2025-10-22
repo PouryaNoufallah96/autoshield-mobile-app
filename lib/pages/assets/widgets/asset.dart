@@ -82,7 +82,7 @@ class AssetItem extends StatelessWidget {
                     _Amount(
                       title: 'Covered:',
                       value: stat.covered,
-                      sign: stat.symbol,
+                      sign: '',
                     ),
                     _Amount(
                       title: '',
@@ -97,7 +97,7 @@ class AssetItem extends StatelessWidget {
                     _Amount(
                       title: 'Uncovered:',
                       value: stat.availableForCover,
-                      sign: stat.symbol,
+                      sign: '',
                     ),
                     _Amount(
                       title: '',

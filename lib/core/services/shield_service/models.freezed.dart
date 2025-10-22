@@ -1553,3 +1553,382 @@ abstract class _ShieldDurationDiscount implements ShieldDurationDiscount {
   _$$ShieldDurationDiscountImplCopyWith<_$ShieldDurationDiscountImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+CreateShieldResponse _$CreateShieldResponseFromJson(Map<String, dynamic> json) {
+  return _CreateShieldResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreateShieldResponse {
+  double get tokenPrice => throw _privateConstructorUsedError;
+  ShieldType get type => throw _privateConstructorUsedError;
+  String? get totalFeeInInsuranceInWei => throw _privateConstructorUsedError;
+  String? get totalFeeValueInWei => throw _privateConstructorUsedError;
+  String? get tokenAmountInWei => throw _privateConstructorUsedError;
+  String? get registerMoment => throw _privateConstructorUsedError;
+  String? get expireMoment => throw _privateConstructorUsedError;
+  String? get walletAddress => throw _privateConstructorUsedError;
+  String? get tokenAddress => throw _privateConstructorUsedError;
+  String? get signature => throw _privateConstructorUsedError;
+  String? get signatureExpire => throw _privateConstructorUsedError;
+
+  /// Serializes this CreateShieldResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CreateShieldResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CreateShieldResponseCopyWith<CreateShieldResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateShieldResponseCopyWith<$Res> {
+  factory $CreateShieldResponseCopyWith(CreateShieldResponse value,
+          $Res Function(CreateShieldResponse) then) =
+      _$CreateShieldResponseCopyWithImpl<$Res, CreateShieldResponse>;
+  @useResult
+  $Res call(
+      {double tokenPrice,
+      ShieldType type,
+      String? totalFeeInInsuranceInWei,
+      String? totalFeeValueInWei,
+      String? tokenAmountInWei,
+      String? registerMoment,
+      String? expireMoment,
+      String? walletAddress,
+      String? tokenAddress,
+      String? signature,
+      String? signatureExpire});
+}
+
+/// @nodoc
+class _$CreateShieldResponseCopyWithImpl<$Res,
+        $Val extends CreateShieldResponse>
+    implements $CreateShieldResponseCopyWith<$Res> {
+  _$CreateShieldResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CreateShieldResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tokenPrice = null,
+    Object? type = null,
+    Object? totalFeeInInsuranceInWei = freezed,
+    Object? totalFeeValueInWei = freezed,
+    Object? tokenAmountInWei = freezed,
+    Object? registerMoment = freezed,
+    Object? expireMoment = freezed,
+    Object? walletAddress = freezed,
+    Object? tokenAddress = freezed,
+    Object? signature = freezed,
+    Object? signatureExpire = freezed,
+  }) {
+    return _then(_value.copyWith(
+      tokenPrice: null == tokenPrice
+          ? _value.tokenPrice
+          : tokenPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ShieldType,
+      totalFeeInInsuranceInWei: freezed == totalFeeInInsuranceInWei
+          ? _value.totalFeeInInsuranceInWei
+          : totalFeeInInsuranceInWei // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalFeeValueInWei: freezed == totalFeeValueInWei
+          ? _value.totalFeeValueInWei
+          : totalFeeValueInWei // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tokenAmountInWei: freezed == tokenAmountInWei
+          ? _value.tokenAmountInWei
+          : tokenAmountInWei // ignore: cast_nullable_to_non_nullable
+              as String?,
+      registerMoment: freezed == registerMoment
+          ? _value.registerMoment
+          : registerMoment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expireMoment: freezed == expireMoment
+          ? _value.expireMoment
+          : expireMoment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      walletAddress: freezed == walletAddress
+          ? _value.walletAddress
+          : walletAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tokenAddress: freezed == tokenAddress
+          ? _value.tokenAddress
+          : tokenAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signature: freezed == signature
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signatureExpire: freezed == signatureExpire
+          ? _value.signatureExpire
+          : signatureExpire // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateShieldResponseImplCopyWith<$Res>
+    implements $CreateShieldResponseCopyWith<$Res> {
+  factory _$$CreateShieldResponseImplCopyWith(_$CreateShieldResponseImpl value,
+          $Res Function(_$CreateShieldResponseImpl) then) =
+      __$$CreateShieldResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {double tokenPrice,
+      ShieldType type,
+      String? totalFeeInInsuranceInWei,
+      String? totalFeeValueInWei,
+      String? tokenAmountInWei,
+      String? registerMoment,
+      String? expireMoment,
+      String? walletAddress,
+      String? tokenAddress,
+      String? signature,
+      String? signatureExpire});
+}
+
+/// @nodoc
+class __$$CreateShieldResponseImplCopyWithImpl<$Res>
+    extends _$CreateShieldResponseCopyWithImpl<$Res, _$CreateShieldResponseImpl>
+    implements _$$CreateShieldResponseImplCopyWith<$Res> {
+  __$$CreateShieldResponseImplCopyWithImpl(_$CreateShieldResponseImpl _value,
+      $Res Function(_$CreateShieldResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CreateShieldResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tokenPrice = null,
+    Object? type = null,
+    Object? totalFeeInInsuranceInWei = freezed,
+    Object? totalFeeValueInWei = freezed,
+    Object? tokenAmountInWei = freezed,
+    Object? registerMoment = freezed,
+    Object? expireMoment = freezed,
+    Object? walletAddress = freezed,
+    Object? tokenAddress = freezed,
+    Object? signature = freezed,
+    Object? signatureExpire = freezed,
+  }) {
+    return _then(_$CreateShieldResponseImpl(
+      tokenPrice: null == tokenPrice
+          ? _value.tokenPrice
+          : tokenPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ShieldType,
+      totalFeeInInsuranceInWei: freezed == totalFeeInInsuranceInWei
+          ? _value.totalFeeInInsuranceInWei
+          : totalFeeInInsuranceInWei // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalFeeValueInWei: freezed == totalFeeValueInWei
+          ? _value.totalFeeValueInWei
+          : totalFeeValueInWei // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tokenAmountInWei: freezed == tokenAmountInWei
+          ? _value.tokenAmountInWei
+          : tokenAmountInWei // ignore: cast_nullable_to_non_nullable
+              as String?,
+      registerMoment: freezed == registerMoment
+          ? _value.registerMoment
+          : registerMoment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expireMoment: freezed == expireMoment
+          ? _value.expireMoment
+          : expireMoment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      walletAddress: freezed == walletAddress
+          ? _value.walletAddress
+          : walletAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tokenAddress: freezed == tokenAddress
+          ? _value.tokenAddress
+          : tokenAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signature: freezed == signature
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signatureExpire: freezed == signatureExpire
+          ? _value.signatureExpire
+          : signatureExpire // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CreateShieldResponseImpl implements _CreateShieldResponse {
+  const _$CreateShieldResponseImpl(
+      {required this.tokenPrice,
+      required this.type,
+      this.totalFeeInInsuranceInWei,
+      this.totalFeeValueInWei,
+      this.tokenAmountInWei,
+      this.registerMoment,
+      this.expireMoment,
+      this.walletAddress,
+      this.tokenAddress,
+      this.signature,
+      this.signatureExpire});
+
+  factory _$CreateShieldResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateShieldResponseImplFromJson(json);
+
+  @override
+  final double tokenPrice;
+  @override
+  final ShieldType type;
+  @override
+  final String? totalFeeInInsuranceInWei;
+  @override
+  final String? totalFeeValueInWei;
+  @override
+  final String? tokenAmountInWei;
+  @override
+  final String? registerMoment;
+  @override
+  final String? expireMoment;
+  @override
+  final String? walletAddress;
+  @override
+  final String? tokenAddress;
+  @override
+  final String? signature;
+  @override
+  final String? signatureExpire;
+
+  @override
+  String toString() {
+    return 'CreateShieldResponse(tokenPrice: $tokenPrice, type: $type, totalFeeInInsuranceInWei: $totalFeeInInsuranceInWei, totalFeeValueInWei: $totalFeeValueInWei, tokenAmountInWei: $tokenAmountInWei, registerMoment: $registerMoment, expireMoment: $expireMoment, walletAddress: $walletAddress, tokenAddress: $tokenAddress, signature: $signature, signatureExpire: $signatureExpire)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateShieldResponseImpl &&
+            (identical(other.tokenPrice, tokenPrice) ||
+                other.tokenPrice == tokenPrice) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(
+                    other.totalFeeInInsuranceInWei, totalFeeInInsuranceInWei) ||
+                other.totalFeeInInsuranceInWei == totalFeeInInsuranceInWei) &&
+            (identical(other.totalFeeValueInWei, totalFeeValueInWei) ||
+                other.totalFeeValueInWei == totalFeeValueInWei) &&
+            (identical(other.tokenAmountInWei, tokenAmountInWei) ||
+                other.tokenAmountInWei == tokenAmountInWei) &&
+            (identical(other.registerMoment, registerMoment) ||
+                other.registerMoment == registerMoment) &&
+            (identical(other.expireMoment, expireMoment) ||
+                other.expireMoment == expireMoment) &&
+            (identical(other.walletAddress, walletAddress) ||
+                other.walletAddress == walletAddress) &&
+            (identical(other.tokenAddress, tokenAddress) ||
+                other.tokenAddress == tokenAddress) &&
+            (identical(other.signature, signature) ||
+                other.signature == signature) &&
+            (identical(other.signatureExpire, signatureExpire) ||
+                other.signatureExpire == signatureExpire));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      tokenPrice,
+      type,
+      totalFeeInInsuranceInWei,
+      totalFeeValueInWei,
+      tokenAmountInWei,
+      registerMoment,
+      expireMoment,
+      walletAddress,
+      tokenAddress,
+      signature,
+      signatureExpire);
+
+  /// Create a copy of CreateShieldResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateShieldResponseImplCopyWith<_$CreateShieldResponseImpl>
+      get copyWith =>
+          __$$CreateShieldResponseImplCopyWithImpl<_$CreateShieldResponseImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CreateShieldResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreateShieldResponse implements CreateShieldResponse {
+  const factory _CreateShieldResponse(
+      {required final double tokenPrice,
+      required final ShieldType type,
+      final String? totalFeeInInsuranceInWei,
+      final String? totalFeeValueInWei,
+      final String? tokenAmountInWei,
+      final String? registerMoment,
+      final String? expireMoment,
+      final String? walletAddress,
+      final String? tokenAddress,
+      final String? signature,
+      final String? signatureExpire}) = _$CreateShieldResponseImpl;
+
+  factory _CreateShieldResponse.fromJson(Map<String, dynamic> json) =
+      _$CreateShieldResponseImpl.fromJson;
+
+  @override
+  double get tokenPrice;
+  @override
+  ShieldType get type;
+  @override
+  String? get totalFeeInInsuranceInWei;
+  @override
+  String? get totalFeeValueInWei;
+  @override
+  String? get tokenAmountInWei;
+  @override
+  String? get registerMoment;
+  @override
+  String? get expireMoment;
+  @override
+  String? get walletAddress;
+  @override
+  String? get tokenAddress;
+  @override
+  String? get signature;
+  @override
+  String? get signatureExpire;
+
+  /// Create a copy of CreateShieldResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CreateShieldResponseImplCopyWith<_$CreateShieldResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

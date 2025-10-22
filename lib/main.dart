@@ -8,6 +8,7 @@ import 'package:auto_shield/core/design_system/theme.dart';
 import 'package:auto_shield/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:auto_shield/core/services/reown/reown.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
+import 'package:auto_shield/core/services/transaction_service/transaction_service.dart';
 import 'package:auto_shield/injection.dart';
 import 'package:auto_shield/pages/add_shield/add_shield.dart';
 import 'package:auto_shield/pages/assets/assets.dart';

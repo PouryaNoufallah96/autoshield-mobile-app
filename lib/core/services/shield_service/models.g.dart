@@ -150,3 +150,35 @@ Map<String, dynamic> _$$ShieldDurationDiscountImplToJson(
       'toMonth': instance.toMonth,
       'discount': instance.discount,
     };
+
+_$CreateShieldResponseImpl _$$CreateShieldResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CreateShieldResponseImpl(
+      tokenPrice: (json['tokenPrice'] as num).toDouble(),
+      type: $enumDecode(_$ShieldTypeEnumMap, json['type']),
+      totalFeeInInsuranceInWei: json['totalFeeInInsuranceInWei'] as String?,
+      totalFeeValueInWei: json['totalFeeValueInWei'] as String?,
+      tokenAmountInWei: json['tokenAmountInWei'] as String?,
+      registerMoment: json['registerMoment'] as String?,
+      expireMoment: json['expireMoment'] as String?,
+      walletAddress: json['walletAddress'] as String?,
+      tokenAddress: json['tokenAddress'] as String?,
+      signature: json['signature'] as String?,
+      signatureExpire: json['signatureExpire'] as String?,
+    );
+
+Map<String, dynamic> _$$CreateShieldResponseImplToJson(
+        _$CreateShieldResponseImpl instance) =>
+    <String, dynamic>{
+      'tokenPrice': instance.tokenPrice,
+      'type': _$ShieldTypeEnumMap[instance.type]!,
+      'totalFeeInInsuranceInWei': instance.totalFeeInInsuranceInWei,
+      'totalFeeValueInWei': instance.totalFeeValueInWei,
+      'tokenAmountInWei': instance.tokenAmountInWei,
+      'registerMoment': instance.registerMoment,
+      'expireMoment': instance.expireMoment,
+      'walletAddress': instance.walletAddress,
+      'tokenAddress': instance.tokenAddress,
+      'signature': instance.signature,
+      'signatureExpire': instance.signatureExpire,
+    };

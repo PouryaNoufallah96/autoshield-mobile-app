@@ -15,8 +15,8 @@ class Env {
   static String paidOrderHub = _env.paidOrderHub;
   static String appContractAddress = _env.appContractAddress;
   static String appContractName = _env.appContractName;
-  static String erc20Address = _env.erc20Address;
-  static String erc20Name = _env.erc20Name;
+  static String insuranceAddress = _env.insuranceAddress;
+  static String insuranceName = _env.insuranceName;
   static String applicationId = _env.applicationId;
 
   static Map<String, dynamic> authHeaders() {
@@ -52,8 +52,8 @@ sealed class _Env {
     required this.inventroyOrderHub,
     required this.appContractAddress,
     required this.appContractName,
-    required this.erc20Address,
-    required this.erc20Name,
+    required this.insuranceAddress,
+    required this.insuranceName,
     required this.applicationId,
   });
 
@@ -70,8 +70,8 @@ sealed class _Env {
   final String inventroyOrderHub;
   final String appContractAddress;
   final String appContractName;
-  final String erc20Address;
-  final String erc20Name;
+  final String insuranceAddress;
+  final String insuranceName;
   final String applicationId;
 }
 
@@ -85,10 +85,10 @@ class _StageEnv extends _Env {
           publicSignature: 'yejmwttyiqiangnrfxuntkrdxvw',
           inventroyOrderHub: 'wss://api.rzprime.com/hubs/inventory',
           paidOrderHub: 'wss://api.rzprime.com/hubs/paidOrder',
-          appContractAddress: '0xd92095a3d1eB5e334B7082848452E5653Ff718ac',
+          appContractAddress: '0xFf8ca5Cf3E49730A1E9D244E4B22bd95bbaB1648',
           appContractName: 'TokenForwardSale',
-          erc20Address: '0xC4A1cc5cA8955a4650BDC109bddf110E33a1e344',
-          erc20Name: 'RZUSD',
+          insuranceAddress: '0xC4A1cc5cA8955a4650BDC109bddf110E33a1e344',
+          insuranceName: 'RZUSD',
           applicationId: 'autoshield.mainapp',
         );
 }

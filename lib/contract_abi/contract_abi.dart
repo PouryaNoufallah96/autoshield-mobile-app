@@ -13,21 +13,21 @@ class AppContractAbi {
     return contract;
   }
 
-  static ContractFunction get executeOrderFunction {
-    return appContract.function('executeOrder');
+  static ContractFunction get insureTokenFunction {
+    return appContract.function('insureToken');
   }
 
-  static DeployedContract get erc20Contract {
+  static DeployedContract get insuranceContract {
     final contract = DeployedContract(
-      ContractAbi.fromJson(jsonEncode(_erc20Abi), Env.erc20Name),
-      EthereumAddress.fromHex(Env.erc20Address),
+      ContractAbi.fromJson(jsonEncode(_insuranceAbi), Env.insuranceName),
+      EthereumAddress.fromHex(Env.insuranceAddress),
     );
 
     return contract;
   }
 
   static ContractFunction get approveFunction {
-    return erc20Contract.function('approve');
+    return insuranceContract.function('approve');
   }
 
   static final List<Map<String, Object>> _appAbi = [
@@ -607,7 +607,7 @@ class AppContractAbi {
     }
   ];
 
-  static final List<Map<String, Object>> _erc20Abi = [
+  static final List<Map<String, Object>> _insuranceAbi = [
     {
       'inputs': [],
       'payable': false,

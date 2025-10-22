@@ -1,13 +1,18 @@
 import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
+import 'package:auto_shield/core/services/transaction_service/transaction_service.dart';
 import 'package:auto_shield/pages/add_shield/bloc/add_shield_bloc.dart';
 import 'package:auto_shield/pages/add_shield/widgets/confirm.dart';
 import 'package:auto_shield/pages/add_shield/widgets/info.dart';
 import 'package:auto_shield/pages/add_shield/widgets/plan_step.dart';
 import 'package:auto_shield/pages/add_shield/widgets/quantity_step.dart';
+import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
+import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
+import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class AddShieldPage extends StatelessWidget {
   const AddShieldPage({
@@ -19,11 +24,21 @@ class AddShieldPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => stat,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => stat,
+        ),
+        RepositoryProvider(
+          create: (context) => TransactionService(
+            reownService: context.read(),
+          ),
+        ),
+      ],
       child: BlocProvider(
         create: (context) => AddShieldBloc(
           shieldService: context.read(),
+          transactionService: context.read(),
           tokenName: stat.symbol,
         ),
         child: const _Page(),
@@ -37,54 +52,66 @@ class _Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        final step = context.read<AddShieldBloc>().state.step;
-        final index = step.index;
-
-        if (index == 0) {
-          Navigator.pop(context);
-        } else {
-          final p = AddShieldStep.values[index - 1];
-          context.read<AddShieldBloc>().add(AddShieldEvent.changeStep(p));
-        }
+    return BlocListener<AddShieldBloc, AddShieldState>(
+      listenWhen: (previous, current) {
+        return previous.submitStatus == AddShieldSubmitStatus.inProgress &&
+            current.submitStatus == AddShieldSubmitStatus.success;
       },
-      child: SafeArea(
-        child: AppScaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                final step = context.read<AddShieldBloc>().state.step;
-                final index = step.index;
+      listener: (context, state) {
+        context.read<WalletStatsCubit>().fetch();
+        context.read<ExpireHistoryCubit>().getHistory();
+        context.read<ActiveHistoryCubit>().getHistory();
+        context.go('/assets');
+      },
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          final step = context.read<AddShieldBloc>().state.step;
+          final index = step.index;
 
-                if (index == 0) {
-                  Navigator.pop(context);
-                } else {
-                  final p = AddShieldStep.values[index - 1];
-                  context
-                      .read<AddShieldBloc>()
-                      .add(AddShieldEvent.changeStep(p));
-                }
-              },
-              icon: const Icon(
-                FontAwesomeIcons.arrowLeftLong,
-                color: Color(0xff4024D1),
-              ),
-            ),
-            actions: const [
-              IconButton(
-                onPressed: null,
-                icon: Icon(
+          if (index == 0) {
+            Navigator.pop(context);
+          } else {
+            final p = AddShieldStep.values[index - 1];
+            context.read<AddShieldBloc>().add(AddShieldEvent.changeStep(p));
+          }
+        },
+        child: SafeArea(
+          child: AppScaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                onPressed: () {
+                  final step = context.read<AddShieldBloc>().state.step;
+                  final index = step.index;
+
+                  if (index == 0) {
+                    Navigator.pop(context);
+                  } else {
+                    final p = AddShieldStep.values[index - 1];
+                    context
+                        .read<AddShieldBloc>()
+                        .add(AddShieldEvent.changeStep(p));
+                  }
+                },
+                icon: const Icon(
                   FontAwesomeIcons.arrowLeftLong,
-                  color: Colors.transparent,
+                  color: Color(0xff4024D1),
                 ),
-              )
-            ],
-            centerTitle: true,
-            title: const _Stepper(),
+              ),
+              actions: const [
+                IconButton(
+                  onPressed: null,
+                  icon: Icon(
+                    FontAwesomeIcons.arrowLeftLong,
+                    color: Colors.transparent,
+                  ),
+                )
+              ],
+              centerTitle: true,
+              title: const _Stepper(),
+            ),
+            body: const _Body(),
           ),
-          body: const _Body(),
         ),
       ),
     );

@@ -130,9 +130,13 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                           _ => state.extra! as WalletStats
                         };
 
-                        return BlocProvider.value(
-                          value: _sectionANavigatorKey.currentContext!
-                              .read<ShieldConfigCubit>(),
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: _sectionANavigatorKey.currentContext!
+                                  .read<ShieldConfigCubit>(),
+                            ),
+                          ],
                           child: AddShieldPage(stat: stat),
                         );
                       },

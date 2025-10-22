@@ -8,23 +8,31 @@ class ShieldService {
 
   final HttpService _adapter;
 
-  Future<bool> createShield({
+  Future<CreateShieldResponse?> createShield({
     required String tokenName,
     required String shieldType,
     required double amount,
     required int selectedMonth,
   }) async {
-    final res = await _adapter.requestUri<dynamic>(
+    final res = await _adapter.requestUri<Map<String, dynamic>>(
         Uri.parse('Shield/CreateShield'),
         method: HttpMethod.post,
         body: {
-          'tokenName': tokenName,
+          'symbol': tokenName,
           'amount': amount,
           'selectedMonth': selectedMonth,
-          'shieldType': shieldType,
+          'shieldType': switch (shieldType) {
+            'Standard' => 'standard',
+            'Premium' => 'premium',
+            _ => 'xshield',
+          },
         });
 
-    return res is AppSuccessResponse;
+    return switch (res) {
+      AppSuccessResponse(:final data) =>
+        CreateShieldResponse.fromJson(data!['data'] as Map<String, dynamic>),
+      _ => null,
+    };
   }
 
   Future<List<WalletStats>?> getWalletStats() async {
