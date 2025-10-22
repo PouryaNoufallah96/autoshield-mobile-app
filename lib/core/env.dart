@@ -87,8 +87,8 @@ class _StageEnv extends _Env {
           paidOrderHub: 'wss://api.rzprime.com/hubs/paidOrder',
           appContractAddress: '0xFf8ca5Cf3E49730A1E9D244E4B22bd95bbaB1648',
           appContractName: 'TokenForwardSale',
-          insuranceAddress: '0xC4A1cc5cA8955a4650BDC109bddf110E33a1e344',
-          insuranceName: 'RZUSD',
+          insuranceAddress: '0x64E4fea6e4F3637025c7Bcd878E2B238B01f7D4e',
+          insuranceName: 'insurance',
           applicationId: 'autoshield.mainapp',
         );
 }
