@@ -5,6 +5,8 @@ final GlobalKey<NavigatorState> _sectionANavigatorKey =
     GlobalKey<NavigatorState>();
 
 mixin AutoShieldAppRouter on State<AutoShieldApp> {
+  bool isInAdd = false;
+
   GoRouter get router {
     return GoRouter(
       initialLocation: '/assets',
@@ -14,27 +16,16 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
         preferencesStream: context.read<PreferencesBloc>().stream,
       ),
       redirect: (context, state) async {
-        // final path = state.uri.path;
-
-        // final isOnBoardingPassed =
-        //     context.read<PreferencesBloc>().state.isOnBoardingPass;
-        // final isTermsAccepted =
-        //     context.read<PreferencesBloc>().state.isTermsAccepted;
-
-        // if (!isOnBoardingPassed) {
-        //   return '/on_boarding';
-        // }
-
-        // if (!isTermsAccepted) {
-        //   return '/terms_of_use';
-        // }
-
-        // if (isTermsAccepted && path == '/terms_of_use') {
-        //   return '/';
-        // }
+        print('APPREDIRECT ${state.uri} ${state.matchedLocation}');
 
         final streamValue = context.read<AuthInterceptor>().stream.value;
         final token = streamValue.token;
+
+        isInAdd = state.matchedLocation == '/assets/add_shield';
+
+        if (state.uri.toString().startsWith('metacoinguard') && isInAdd) {
+          return null;
+        }
 
         final isLoggingIn = state.uri.path == '/';
 
@@ -118,30 +109,30 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                   builder: (context, state) {
                     return const AssetsPage();
                   },
-                  routes: [
-                    GoRoute(
-                      parentNavigatorKey: routerKey,
-                      path: 'add_shield',
-                      name: 'add_shield',
-                      builder: (context, state) {
-                        final stat = switch (state.extra) {
-                          final Map<String, dynamic> i =>
-                            WalletStats.fromJson(i),
-                          _ => state.extra! as WalletStats
-                        };
+                  // routes: [
+                  //   GoRoute(
+                  //     parentNavigatorKey: routerKey,
+                  //     path: 'add_shield',
+                  //     name: 'add_shield',
+                  //     builder: (context, state) {
+                  //       final stat = switch (state.extra) {
+                  //         final Map<String, dynamic> i =>
+                  //           WalletStats.fromJson(i),
+                  //         _ => state.extra! as WalletStats
+                  //       };
 
-                        return MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(
-                              value: _sectionANavigatorKey.currentContext!
-                                  .read<ShieldConfigCubit>(),
-                            ),
-                          ],
-                          child: AddShieldPage(stat: stat),
-                        );
-                      },
-                    )
-                  ],
+                  //       return MultiBlocProvider(
+                  //         providers: [
+                  //           BlocProvider.value(
+                  //             value: _sectionANavigatorKey.currentContext!
+                  //                 .read<ShieldConfigCubit>(),
+                  //           ),
+                  //         ],
+                  //         child: AddShieldPage(stat: stat),
+                  //       );
+                  //     },
+                  //   )
+                  // ],
                 ),
               ],
             ),

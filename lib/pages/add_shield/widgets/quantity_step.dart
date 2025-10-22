@@ -140,26 +140,30 @@ class _PayOfTime extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                final res = await showModalBottomSheet<ShieldMonth>(
-                  context: context,
-                  useRootNavigator: true,
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  backgroundColor: Colors.white,
-                  constraints: BoxConstraints(
-                    maxHeight: context.mSize.height * .8,
-                  ),
-                  showDragHandle: true,
-                  builder: (_) => _SelectPayOfTime(
-                    payOfTime: payOfTime,
-                  ),
-                );
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  final res = await showModalBottomSheet<ShieldMonth>(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    backgroundColor: Colors.white,
+                    constraints: BoxConstraints(
+                      maxHeight: context.mSize.height * .8,
+                    ),
+                    showDragHandle: true,
+                    builder: (_) => BlocProvider.value(
+                      value: context.read<AddShieldBloc>(),
+                      child: _SelectPayOfTime(
+                        payOfTime: payOfTime,
+                      ),
+                    ),
+                  );
 
-                if (res != null && context.mounted) {
-                  context
-                      .read<AddShieldBloc>()
-                      .add(AddShieldEvent.changeMonth(res));
-                }
+                  if (res != null && context.mounted) {
+                    context
+                        .read<AddShieldBloc>()
+                        .add(AddShieldEvent.changeMonth(res));
+                  }
+                });
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

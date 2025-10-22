@@ -158,7 +158,7 @@ class __AuthState extends State<_Auth> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                   ),
-                  onPressed: !_isConnected || !canShowAction
+                  onPressed: !_isConnected && !canShowAction
                       ? () async {
                           await showModalBottomSheet<String>(
                             context: context,

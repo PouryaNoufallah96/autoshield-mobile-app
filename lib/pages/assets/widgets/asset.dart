@@ -1,9 +1,14 @@
 import 'package:auto_shield/components/app_token.dart';
 import 'package:auto_shield/components/dashed_divider.dart';
+import 'package:auto_shield/core/blocs/cubit/shield_config_cubit.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/utils/number_formatter.dart';
+import 'package:auto_shield/pages/add_shield/add_shield.dart';
+import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
+import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
+import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AssetItem extends StatelessWidget {
   const AssetItem({
@@ -63,8 +68,35 @@ class AssetItem extends StatelessWidget {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     )),
                   ),
-                  onPressed: () =>
-                      context.pushNamed('add_shield', extra: stat.toJson()),
+                  onPressed: () async {
+                    await showDialog<void>(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) {
+                        return Dialog.fullscreen(
+                            child: MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: context.read<ShieldConfigCubit>(),
+                            ),
+                            BlocProvider.value(
+                              value: context.read<WalletStatsCubit>(),
+                            ),
+                            BlocProvider.value(
+                              value: context.read<ExpireHistoryCubit>(),
+                            ),
+                            BlocProvider.value(
+                              value: context.read<ActiveHistoryCubit>(),
+                            ),
+                          ],
+                          child: AddShieldPage(stat: stat),
+                        ));
+                      },
+                    );
+
+                    // return;
+                    // context.pushNamed('add_shield', extra: stat.toJson());
+                  },
                   child: const Text('Add'),
                 )
               ],

@@ -12,7 +12,6 @@ import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_his
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 
 class AddShieldPage extends StatelessWidget {
   const AddShieldPage({
@@ -52,6 +51,8 @@ class _Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final step = context.watch<AddShieldBloc>().state.step;
+
     return BlocListener<AddShieldBloc, AddShieldState>(
       listenWhen: (previous, current) {
         return previous.submitStatus == AddShieldSubmitStatus.inProgress &&
@@ -61,57 +62,53 @@ class _Page extends StatelessWidget {
         context.read<WalletStatsCubit>().fetch();
         context.read<ExpireHistoryCubit>().getHistory();
         context.read<ActiveHistoryCubit>().getHistory();
-        context.go('/assets');
+        Navigator.pop(context);
       },
       child: PopScope(
-        canPop: false,
+        canPop: step.index == 0,
         onPopInvokedWithResult: (didPop, result) {
           final step = context.read<AddShieldBloc>().state.step;
           final index = step.index;
 
-          if (index == 0) {
-            Navigator.pop(context);
-          } else {
+          if (index > 0) {
             final p = AddShieldStep.values[index - 1];
             context.read<AddShieldBloc>().add(AddShieldEvent.changeStep(p));
           }
         },
-        child: SafeArea(
-          child: AppScaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  final step = context.read<AddShieldBloc>().state.step;
-                  final index = step.index;
+        child: AppScaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                final step = context.read<AddShieldBloc>().state.step;
+                final index = step.index;
 
-                  if (index == 0) {
-                    Navigator.pop(context);
-                  } else {
-                    final p = AddShieldStep.values[index - 1];
-                    context
-                        .read<AddShieldBloc>()
-                        .add(AddShieldEvent.changeStep(p));
-                  }
-                },
-                icon: const Icon(
-                  FontAwesomeIcons.arrowLeftLong,
-                  color: Color(0xff4024D1),
-                ),
+                if (index == 0) {
+                  Navigator.pop(context);
+                } else {
+                  final p = AddShieldStep.values[index - 1];
+                  context
+                      .read<AddShieldBloc>()
+                      .add(AddShieldEvent.changeStep(p));
+                }
+              },
+              icon: const Icon(
+                FontAwesomeIcons.arrowLeftLong,
+                color: Color(0xff4024D1),
               ),
-              actions: const [
-                IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    FontAwesomeIcons.arrowLeftLong,
-                    color: Colors.transparent,
-                  ),
-                )
-              ],
-              centerTitle: true,
-              title: const _Stepper(),
             ),
-            body: const _Body(),
+            actions: const [
+              IconButton(
+                onPressed: null,
+                icon: Icon(
+                  FontAwesomeIcons.arrowLeftLong,
+                  color: Colors.transparent,
+                ),
+              )
+            ],
+            centerTitle: true,
+            title: const _Stepper(),
           ),
+          body: const SafeArea(child: _Body()),
         ),
       ),
     );

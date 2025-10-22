@@ -60,7 +60,7 @@ class TransactionService {
     return res is String && res.startsWith('0x');
   }
 
-  Future<bool> payOrder(Map<String, dynamic> params, String signature) async {
+  Future<bool> payOrder(List<dynamic> params, String signature) async {
     final chainId = _reownService.appKitModal.selectedChain?.chainId;
 
     final addressCheckSum = _address();

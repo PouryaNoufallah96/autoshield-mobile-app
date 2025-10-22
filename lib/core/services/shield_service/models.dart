@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:reown_walletkit/reown_walletkit.dart';
 
 part 'models.freezed.dart';
 part 'models.g.dart';
@@ -163,7 +164,7 @@ extension CreateShieldResponseX on CreateShieldResponse {
     return BigInt.from(secs);
   }
 
-  Map<String, dynamic> functionParams() {
+  List<dynamic> functionParams() {
     final e8 = BigInt.from(10).pow(8);
 
     final payoutAmountInUsd = BigInt.tryParse(totalFeeValueInWei ?? '');
@@ -178,17 +179,17 @@ extension CreateShieldResponseX on CreateShieldResponse {
     final endDate = toUnixSeconds(expireMoment);
     final sigDeadline = toUnixSeconds(signatureExpire);
 
-    return {
-      'payoutAmount': payoutAmount,
-      'payoutAmountInUsd': payoutAmountInUsd,
-      'coverageAmount': coverageAmount,
-      'startDate': startDate,
-      'endDate': endDate,
-      'initalPrice': initialPrice,
-      'sigDeadline': sigDeadline,
-      'insuredToken': insuredToken,
-      'user': userAddress,
-      'insuranceType': insuranceType,
-    };
+    return [
+      payoutAmount,
+      payoutAmountInUsd,
+      coverageAmount,
+      startDate,
+      endDate,
+      initialPrice,
+      sigDeadline,
+      EthereumAddress.fromHex(insuredToken!),
+      EthereumAddress.fromHex(userAddress!),
+      insuranceType,
+    ];
   }
 }

@@ -12,7 +12,8 @@ Future<T?> futureTimeout<T>(
   } on TimeoutException {
     onTimeout();
     return null;
-  } catch (_) {
+  } catch (e, s) {
+    print('Catch error $e $s');
     onTimeout();
     return null;
   }
