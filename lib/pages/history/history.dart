@@ -41,7 +41,7 @@ class HistoryPage extends HookWidget {
               text: 'Active',
             ),
             Tab(
-              text: 'expired',
+              text: 'Inactive',
             )
           ],
         ),
