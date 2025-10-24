@@ -152,11 +152,14 @@ class _Body extends StatelessWidget {
                     children: [
                       if (state != AddShieldStep.confirm)
                         const SizedBox(height: 40),
-                      switch (state) {
-                        AddShieldStep.quantity => const QuantityStep(),
-                        AddShieldStep.config => const PlanStep(),
-                        AddShieldStep.confirm => const ConfirmShieldInfo(),
-                      },
+                      IndexedStack(
+                        index: state.index,
+                        children: const [
+                          QuantityStep(),
+                          PlanStep(),
+                          ConfirmShieldInfo(),
+                        ],
+                      ),
                     ],
                   );
                 },
@@ -181,6 +184,8 @@ class _Button extends StatelessWidget {
         if (state.step == AddShieldStep.quantity) {
           return state.quantity != null &&
               state.quantity! > 0 &&
+              state.quantity! <=
+                  context.read<WalletStats>().availableForCover &&
               state.month != null;
         } else if (state.step == AddShieldStep.config) {
           return state.config != null;
@@ -212,6 +217,7 @@ class _Button extends StatelessWidget {
                         ? null
                         : () {
                             if (step == AddShieldStep.quantity) {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               context.read<AddShieldBloc>().add(
                                   const AddShieldEvent.changeStep(
                                       AddShieldStep.config));

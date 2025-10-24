@@ -43,58 +43,66 @@ class QuantityStep extends HookWidget {
           ],
         ),
         const SizedBox(height: 8),
-        TextFormField(
-          style: const TextStyle(
-            fontFamily: 'CentraNo1-Book',
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: Color(0xff202321),
-          ),
-          controller: controller,
-          keyboardType: const TextInputType.numberWithOptions(
-            decimal: true,
-          ),
-          inputFormatters: [
-            SwapAmountFormatter(
-              max: '$available',
-            ),
-          ],
-          cursorHeight: 24,
-          decoration: InputDecoration(
-            hintText: 'Quantity',
-            hintStyle: const TextStyle(
-              fontFamily: 'CentraNo1-Book',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Color(0xff71717A),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-            suffixIcon: TextButton(
-              onPressed: () {
-                final amount = double.tryParse(
-                    AppNumberFormatter.format(available, maxDecimal: 6));
+        BlocSelector<AddShieldBloc, AddShieldState, String?>(
+          selector: (state) {
+            return (state.quantity ?? 0) > available
+                ? 'Maximum quantity is ${AppNumberFormatter.format(available, maxDecimal: 6)}'
+                : null;
+          },
+          builder: (context, errorMessage) {
+            return TextFormField(
+              style: const TextStyle(
+                fontFamily: 'CentraNo1-Book',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Color(0xff202321),
+              ),
+              controller: controller,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              inputFormatters: [
+                SwapAmountFormatter(max: '999999999999'),
+              ],
+              cursorHeight: 24,
+              decoration: InputDecoration(
+                hintText: 'Quantity',
+                errorText: errorMessage,
+                hintStyle: const TextStyle(
+                  fontFamily: 'CentraNo1-Book',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff71717A),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                suffixIcon: TextButton(
+                  onPressed: () {
+                    final amount = double.tryParse(
+                        AppNumberFormatter.format(available, maxDecimal: 6));
 
-                controller.text = '$amount';
+                    controller.text = '$amount';
+                    context
+                        .read<AddShieldBloc>()
+                        .add(AddShieldEvent.changeQuantity(amount ?? 0));
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: context.colorExtension.neutral,
+                  ),
+                  child: const Text('Max'),
+                ),
+              ),
+              onChanged: (value) {
+                final amount = double.tryParse(value);
+
+                if (amount == null) {
+                  return;
+                }
+
                 context
                     .read<AddShieldBloc>()
-                    .add(AddShieldEvent.changeQuantity(amount ?? 0));
+                    .add(AddShieldEvent.changeQuantity(amount));
               },
-              style: TextButton.styleFrom(
-                foregroundColor: context.colorExtension.neutral,
-              ),
-              child: const Text('Max'),
-            ),
-          ),
-          onChanged: (value) {
-            final amount = double.tryParse(value);
-
-            if (amount == null) {
-              return;
-            }
-
-            context
-                .read<AddShieldBloc>()
-                .add(AddShieldEvent.changeQuantity(amount));
+            );
           },
         ),
         const SizedBox(height: 24),

@@ -175,7 +175,7 @@ class _Amount extends StatelessWidget {
         Text(
           '${AppNumberFormatter.format(
             value,
-            decimal: 2,
+            maxDecimal: 6,
           )} $sign',
           style: const TextStyle(
             fontWeight: FontWeight.w500,
