@@ -52,7 +52,7 @@ class ShieldInfo extends StatelessWidget {
 
                 final discount = state.config!.durationDiscount
                     .firstWhereOrNull(
-                        (e) => month > e.fromMonth && month <= e.toMonth);
+                        (e) => month >= e.fromMonth && month <= e.toMonth);
 
                 final discountPercent =
                     discount == null ? 0 : (1 - discount.discount / 100);
