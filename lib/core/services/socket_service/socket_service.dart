@@ -30,21 +30,26 @@ class SocketService {
   static const String _baseUrl = 'https://autoapi.rzprime.com';
   static const String _pricesHubPath = '/hubs/prices';
   static const String _shieldHubPath = '/hubs/NotifyShield';
+  static const String _inventoriesHubPath = '/hubs/NotifyInventories';
 
   static const String _methodNotifyPrices = 'NotifyPrice';
   static const String _methodShieldMessage = 'ShieldMessage';
+  static const String _methodInventoryMessage = 'NotifyInventory';
 
   final AuthInterceptor _authInterceptor;
 
   HubConnection? _pricesConn;
   HubConnection? _shieldConn;
+  HubConnection? _inventoryConn;
 
   bool _pricesStarted = false;
   bool _shieldStarted = false;
+  bool _inventoryStarted = false;
   String? _address;
 
   final Set<String> _pricesHandlers = {_methodNotifyPrices};
   final Set<String> _shieldHandlers = {_methodShieldMessage};
+  final Set<String> _inventoryHandlers = {_methodInventoryMessage};
 
   final _controller = StreamController<HubEvent>.broadcast();
   Stream<HubEvent> get stream => _controller.stream.doOnData((event) {});
@@ -53,6 +58,7 @@ class SocketService {
     await disconnect();
 
     await _startPrices();
+    await _startInventory();
   }
 
   Future<void> disconnect({bool closeStreams = false}) async {
@@ -72,6 +78,23 @@ class SocketService {
 
     _pricesStarted = false;
     _pricesConn = null;
+
+    try {
+      if (_inventoryConn != null) {
+        for (final m in _inventoryHandlers) {
+          _inventoryConn!.off(m);
+        }
+      }
+    } catch (_) {}
+
+    try {
+      if (_inventoryStarted) {
+        await _inventoryConn?.stop();
+      }
+    } catch (_) {}
+
+    _inventoryStarted = false;
+    _inventoryConn = null;
 
     if (closeStreams) {
       await _controller.close();
@@ -93,6 +116,27 @@ class SocketService {
     try {
       await _pricesConn!.start();
       _pricesStarted = true;
+    } on HttpError catch (_) {}
+  }
+
+  Future<void> _startInventory() async {
+    print('_methodInventoryMessage started');
+    _inventoryConn = await _buildConnection(_inventoriesHubPath);
+    print('_methodInventoryMessage listening');
+
+    _inventoryConn!.on(_methodInventoryMessage, (args) {
+      print('_methodInventoryMessage $args');
+      _controller.add(HubEvent(
+        name: _methodInventoryMessage,
+        data: _normalizeArgs(args),
+      ));
+    });
+
+    _wireLifecycle(_inventoryConn!);
+
+    try {
+      await _inventoryConn!.start();
+      _inventoryStarted = true;
     } on HttpError catch (_) {}
   }
 

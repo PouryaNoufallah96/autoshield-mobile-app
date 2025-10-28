@@ -158,7 +158,7 @@ class __AuthState extends State<_Auth> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                   ),
-                  onPressed: !_isConnected && !canShowAction
+                  onPressed: !_isConnected || !canShowAction
                       ? () async {
                           await showModalBottomSheet<String>(
                             context: context,
@@ -200,8 +200,7 @@ class __AuthState extends State<_Auth> {
             },
           ),
         ),
-        // if (canShowAction) ...[
-        if (true) ...[
+        if (canShowAction) ...[
           Padding(
             padding: const EdgeInsets.fromLTRB(35, 32, 35, 0),
             child: ConstrainedBox(

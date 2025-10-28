@@ -1,4 +1,5 @@
 import 'package:auto_shield/components/app_scaffold.dart';
+import 'package:auto_shield/core/blocs/cubit/health_status_cubit.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/services/transaction_service/transaction_service.dart';
 import 'package:auto_shield/pages/add_shield/bloc/add_shield_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_his
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:toastification/toastification.dart';
 
 class AddShieldPage extends StatelessWidget {
   const AddShieldPage({
@@ -179,6 +181,11 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<HealthStatusCubit>().state.status;
+
+    final canShowAction = state?.checked ?? false;
+    final message = state?.message;
+
     return BlocSelector<AddShieldBloc, AddShieldState, bool>(
       selector: (state) {
         if (state.step == AddShieldStep.quantity) {
@@ -233,6 +240,22 @@ class _Button extends StatelessWidget {
                             }
 
                             if (step == AddShieldStep.confirm) {
+                              // if (!isVerified) {
+                              //   toastification.show(
+                              //     style: ToastificationStyle.fillColored,
+                              //     type: ToastificationType.error,
+                              //     title: Text(!canShowAction
+                              //         ? message ?? ''
+                              //         :
+                              //         // ignore: lines_longer_than_80_chars
+                              //         'To submit new orders and view your order history, please connect your wallet in Settings.'),
+                              //     borderRadius: BorderRadius.circular(6),
+                              //     autoCloseDuration: const Duration(seconds: 4),
+                              //   );
+
+                              //   return;
+                              // }
+
                               context
                                   .read<AddShieldBloc>()
                                   .add(const AddShieldEvent.submit());

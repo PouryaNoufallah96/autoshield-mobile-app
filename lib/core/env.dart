@@ -85,7 +85,7 @@ class _StageEnv extends _Env {
           publicSignature: 'yejmwttyiqiangnrfxuntkrdxvw',
           inventroyOrderHub: 'wss://api.rzprime.com/hubs/inventory',
           paidOrderHub: 'wss://api.rzprime.com/hubs/paidOrder',
-          appContractAddress: '0xFf8ca5Cf3E49730A1E9D244E4B22bd95bbaB1648',
+          appContractAddress: '0xe694d3afFA558BB48c1E3292FBe8ab35a9873906',
           appContractName: 'TokenForwardSale',
           insuranceAddress: '0x64E4fea6e4F3637025c7Bcd878E2B238B01f7D4e',
           insuranceName: 'insurance',
