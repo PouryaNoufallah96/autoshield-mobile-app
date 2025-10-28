@@ -1,12 +1,14 @@
 import 'package:auto_shield/core/blocs/cubit/health_status_cubit.dart';
 import 'package:auto_shield/core/blocs/preferences_bloc/preferences_bloc.dart';
 import 'package:auto_shield/core/blocs/prices/price_bloc.dart';
+import 'package:auto_shield/core/blocs/rz_quantity/rz_quantiy_bloc.dart';
 import 'package:auto_shield/core/env.dart';
 import 'package:auto_shield/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:auto_shield/core/services/auth_service/auth_service.dart';
 import 'package:auto_shield/core/services/http_service/http_service.dart';
 import 'package:auto_shield/core/services/shield_service/shield_service.dart';
 import 'package:auto_shield/core/services/socket_service/socket_service.dart';
+import 'package:auto_shield/core/services/stats_serivce/stats_serivce.dart';
 import 'package:auto_shield/core/services/status_service/status_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +91,12 @@ Widget appInjection(Widget child) {
         ),
         lazy: false,
       ),
+      RepositoryProvider(
+        create: (context) => StatsService(
+          adapter: context.read(),
+        ),
+        lazy: false,
+      ),
     ],
     child: MultiBlocProvider(
       providers: [
@@ -105,6 +113,12 @@ Widget appInjection(Widget child) {
           create: (context) => PriceBloc(
             socketService: context.read(),
           )..add(const PriceEvent.started()),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => RzQuantiyBloc(
+            socketService: context.read(),
+          )..add(const RzQuantiyEvent.started()),
           lazy: false,
         ),
       ],

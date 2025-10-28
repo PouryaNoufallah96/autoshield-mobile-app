@@ -66,6 +66,12 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                   create: (context) => NotifyShieldBloc(
                     socketService: context.read(),
                   )..add(const NotifyShieldEvent.started()),
+                ),
+                BlocProvider(
+                  create: (context) => UserStatsCubit(
+                    statsService: context.read(),
+                  )..fetch(),
+                  lazy: false,
                 )
               ],
               child: StreamBuilder(

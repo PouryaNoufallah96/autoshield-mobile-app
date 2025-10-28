@@ -81,7 +81,6 @@ class _Info extends StatelessWidget {
             final month = state.month!.month;
 
             final value = state.quantity! * price;
-            final amount = state.quantity!;
 
             return Column(
               spacing: 24,

@@ -157,9 +157,13 @@ class $AssetsImagesGen {
   AssetGenImage get appIcon =>
       const AssetGenImage('assets/images/app_icon.png');
 
-  /// File path: assets/images/app_icon_ios.png
-  AssetGenImage get appIconIos =>
-      const AssetGenImage('assets/images/app_icon_ios.png');
+  /// File path: assets/images/app_icon_launcher.png
+  AssetGenImage get appIconLauncher =>
+      const AssetGenImage('assets/images/app_icon_launcher.png');
+
+  /// File path: assets/images/app_icon_launcher_ios.png
+  AssetGenImage get appIconLauncherIos =>
+      const AssetGenImage('assets/images/app_icon_launcher_ios.png');
 
   /// File path: assets/images/car.png
   AssetGenImage get car => const AssetGenImage('assets/images/car.png');
@@ -238,7 +242,8 @@ class $AssetsImagesGen {
   List<dynamic> get values => [
         animation,
         appIcon,
-        appIconIos,
+        appIconLauncher,
+        appIconLauncherIos,
         car,
         czw,
         gold,

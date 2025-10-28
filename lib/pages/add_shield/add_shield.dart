@@ -1,7 +1,11 @@
 import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/blocs/cubit/health_status_cubit.dart';
+import 'package:auto_shield/core/blocs/prices/price_bloc.dart';
+import 'package:auto_shield/core/blocs/rz_quantity/rz_quantiy_bloc.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
+import 'package:auto_shield/core/services/stats_serivce/models.dart';
 import 'package:auto_shield/core/services/transaction_service/transaction_service.dart';
+import 'package:auto_shield/core/utils/number_formatter.dart';
 import 'package:auto_shield/pages/add_shield/bloc/add_shield_bloc.dart';
 import 'package:auto_shield/pages/add_shield/widgets/confirm.dart';
 import 'package:auto_shield/pages/add_shield/widgets/info.dart';
@@ -10,6 +14,7 @@ import 'package:auto_shield/pages/add_shield/widgets/quantity_step.dart';
 import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
 import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
 import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
+import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -182,6 +187,10 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HealthStatusCubit>().state.status;
+    final isActive = context
+        .watch<UserStatsCubit>()
+        .state
+        .maybeWhen(orElse: () => false, success: (stats) => stats.isActive);
 
     final canShowAction = state?.checked ?? false;
     final message = state?.message;
@@ -219,49 +228,76 @@ class _Button extends StatelessWidget {
                   ),
                   minimumSize: const Size.fromHeight(48),
                 ),
-                onPressed:
-                    !isValidated || status == AddShieldSubmitStatus.inProgress
-                        ? null
-                        : () {
-                            if (step == AddShieldStep.quantity) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              context.read<AddShieldBloc>().add(
-                                  const AddShieldEvent.changeStep(
-                                      AddShieldStep.config));
+                onPressed: !isValidated ||
+                        status == AddShieldSubmitStatus.inProgress
+                    ? null
+                    : () {
+                        if (step == AddShieldStep.quantity) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          context.read<AddShieldBloc>().add(
+                              const AddShieldEvent.changeStep(
+                                  AddShieldStep.config));
 
-                              return;
-                            }
+                          return;
+                        }
 
-                            if (step == AddShieldStep.config) {
-                              context.read<AddShieldBloc>().add(
-                                  const AddShieldEvent.changeStep(
-                                      AddShieldStep.confirm));
-                              return;
-                            }
+                        if (step == AddShieldStep.config) {
+                          context.read<AddShieldBloc>().add(
+                              const AddShieldEvent.changeStep(
+                                  AddShieldStep.confirm));
+                          return;
+                        }
 
-                            if (step == AddShieldStep.confirm) {
-                              // if (!isVerified) {
-                              //   toastification.show(
-                              //     style: ToastificationStyle.fillColored,
-                              //     type: ToastificationType.error,
-                              //     title: Text(!canShowAction
-                              //         ? message ?? ''
-                              //         :
-                              //         // ignore: lines_longer_than_80_chars
-                              //         'To submit new orders and view your order history, please connect your wallet in Settings.'),
-                              //     borderRadius: BorderRadius.circular(6),
-                              //     autoCloseDuration: const Duration(seconds: 4),
-                              //   );
+                        if (step == AddShieldStep.confirm) {
+                          if (!isActive) {
+                            toastification.show(
+                              style: ToastificationStyle.fillColored,
+                              type: ToastificationType.error,
+                              title: Text(!canShowAction
+                                  ? message ?? ''
+                                  :
+                                  // ignore: lines_longer_than_80_chars
+                                  'To submit new orders and view your order history, please connect your wallet in Settings.'),
+                              borderRadius: BorderRadius.circular(6),
+                              autoCloseDuration: const Duration(seconds: 4),
+                            );
 
-                              //   return;
-                              // }
+                            return;
+                          }
 
-                              context
-                                  .read<AddShieldBloc>()
-                                  .add(const AddShieldEvent.submit());
-                              return;
-                            }
-                          },
+                          final token = context.read<WalletStats>();
+
+                          final price = context
+                              .read<PriceBloc>()
+                              .state
+                              .prices
+                              .firstWhere((e) => e.tokenName == token.symbol)
+                              .price;
+
+                          final value = state.quantity! * price;
+
+                          final available =
+                              context.read<RzQuantiyBloc>().state.available;
+
+                          if (value > available) {
+                            toastification.show(
+                              style: ToastificationStyle.fillColored,
+                              type: ToastificationType.error,
+                              title: Text(
+                                  // ignore: lines_longer_than_80_chars
+                                  'Maximum quantity is ${AppNumberFormatter.format(available, maxDecimal: 2)}'),
+                              borderRadius: BorderRadius.circular(6),
+                              autoCloseDuration: const Duration(seconds: 4),
+                            );
+                            return;
+                          }
+
+                          context
+                              .read<AddShieldBloc>()
+                              .add(const AddShieldEvent.submit());
+                          return;
+                        }
+                      },
                 child: status == AddShieldSubmitStatus.inProgress
                     ? const Center(
                         child: CircularProgressIndicator.adaptive(),

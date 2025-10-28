@@ -7,6 +7,7 @@ import 'package:auto_shield/pages/add_shield/add_shield.dart';
 import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
 import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
 import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
+import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -87,6 +88,9 @@ class AssetItem extends StatelessWidget {
                             ),
                             BlocProvider.value(
                               value: context.read<ActiveHistoryCubit>(),
+                            ),
+                            BlocProvider.value(
+                              value: context.read<UserStatsCubit>(),
                             ),
                           ],
                           child: AddShieldPage(stat: stat),

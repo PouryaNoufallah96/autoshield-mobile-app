@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/blocs/reown/reown_bloc.dart';
 import 'package:auto_shield/core/services/socket_service/socket_service.dart';
+import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -52,8 +53,24 @@ class _NestedPageState extends State<NestedPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       hide: widget.child.currentIndex == 2,
-      body: SafeArea(
-        child: widget.child,
+      body: BlocSelector<UserStatsCubit, UserStatsState, bool>(
+        selector: (state) {
+          return state.maybeWhen(
+            success: (_) => false,
+            orElse: () => true,
+          );
+        },
+        builder: (context, isInProgress) {
+          if (isInProgress) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }
+
+          return SafeArea(
+            child: widget.child,
+          );
+        },
       ),
       bottomNavigationBar: _BottomNav(
         shell: widget.child,

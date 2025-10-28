@@ -120,12 +120,9 @@ class SocketService {
   }
 
   Future<void> _startInventory() async {
-    print('_methodInventoryMessage started');
     _inventoryConn = await _buildConnection(_inventoriesHubPath);
-    print('_methodInventoryMessage listening');
 
     _inventoryConn!.on(_methodInventoryMessage, (args) {
-      print('_methodInventoryMessage $args');
       _controller.add(HubEvent(
         name: _methodInventoryMessage,
         data: _normalizeArgs(args),
