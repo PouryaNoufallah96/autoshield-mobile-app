@@ -69,8 +69,9 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                 ),
                 BlocProvider(
                   create: (context) => UserStatsCubit(
-                    statsService: context.read(),
-                  )..fetch(),
+                      statsService: context.read(),
+                      authInterceptor: context.read())
+                    ..fetch(),
                   lazy: false,
                 )
               ],

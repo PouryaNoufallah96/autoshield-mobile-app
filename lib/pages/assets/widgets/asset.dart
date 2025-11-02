@@ -1,6 +1,7 @@
 import 'package:auto_shield/components/app_token.dart';
 import 'package:auto_shield/components/dashed_divider.dart';
 import 'package:auto_shield/core/blocs/cubit/shield_config_cubit.dart';
+import 'package:auto_shield/core/blocs/reown/reown_bloc.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/utils/number_formatter.dart';
 import 'package:auto_shield/pages/add_shield/add_shield.dart';
@@ -77,6 +78,9 @@ class AssetItem extends StatelessWidget {
                         return Dialog.fullscreen(
                             child: MultiBlocProvider(
                           providers: [
+                            BlocProvider.value(
+                              value: context.read<ReownBloc>(),
+                            ),
                             BlocProvider.value(
                               value: context.read<ShieldConfigCubit>(),
                             ),

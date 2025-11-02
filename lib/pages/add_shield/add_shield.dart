@@ -1,6 +1,7 @@
 import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/blocs/cubit/health_status_cubit.dart';
 import 'package:auto_shield/core/blocs/prices/price_bloc.dart';
+import 'package:auto_shield/core/blocs/reown/reown_bloc.dart';
 import 'package:auto_shield/core/blocs/rz_quantity/rz_quantiy_bloc.dart';
 import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/services/stats_serivce/models.dart';
@@ -17,6 +18,7 @@ import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_his
 import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:toastification/toastification.dart';
 
@@ -122,7 +124,7 @@ class _Page extends StatelessWidget {
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends HookWidget {
   const _Body();
 
   @override
@@ -250,17 +252,19 @@ class _Button extends StatelessWidget {
 
                         if (step == AddShieldStep.confirm) {
                           if (!isActive) {
-                            toastification.show(
-                              style: ToastificationStyle.fillColored,
-                              type: ToastificationType.error,
-                              title: Text(!canShowAction
-                                  ? message ?? ''
-                                  :
-                                  // ignore: lines_longer_than_80_chars
-                                  'To submit new orders and view your order history, please connect your wallet in Settings.'),
-                              borderRadius: BorderRadius.circular(6),
-                              autoCloseDuration: const Duration(seconds: 4),
-                            );
+                            if (!canShowAction) {
+                              toastification.show(
+                                style: ToastificationStyle.fillColored,
+                                type: ToastificationType.error,
+                                title: Text(message ?? ''),
+                                borderRadius: BorderRadius.circular(6),
+                                autoCloseDuration: const Duration(seconds: 4),
+                              );
+                            } else {
+                              context
+                                  .read<ReownBloc>()
+                                  .add(ReownLogginButtonPressed());
+                            }
 
                             return;
                           }
