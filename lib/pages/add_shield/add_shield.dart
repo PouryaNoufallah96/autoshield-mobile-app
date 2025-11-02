@@ -7,19 +7,18 @@ import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/services/stats_serivce/models.dart';
 import 'package:auto_shield/core/services/transaction_service/transaction_service.dart';
 import 'package:auto_shield/core/utils/number_formatter.dart';
+import 'package:auto_shield/main.dart';
 import 'package:auto_shield/pages/add_shield/bloc/add_shield_bloc.dart';
 import 'package:auto_shield/pages/add_shield/widgets/confirm.dart';
 import 'package:auto_shield/pages/add_shield/widgets/info.dart';
 import 'package:auto_shield/pages/add_shield/widgets/plan_step.dart';
 import 'package:auto_shield/pages/add_shield/widgets/quantity_step.dart';
-import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
-import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
-import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
 import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class AddShieldPage extends StatelessWidget {
@@ -68,10 +67,10 @@ class _Page extends StatelessWidget {
             current.submitStatus == AddShieldSubmitStatus.success;
       },
       listener: (context, state) {
-        context.read<WalletStatsCubit>().fetch();
-        context.read<ExpireHistoryCubit>().getHistory();
-        context.read<ActiveHistoryCubit>().getHistory();
-        Navigator.pop(context);
+        final ctx = routerKey.currentContext;
+        if (ctx != null && ctx.mounted) {
+          ctx.pop(true);
+        }
       },
       child: PopScope(
         canPop: step.index == 0,

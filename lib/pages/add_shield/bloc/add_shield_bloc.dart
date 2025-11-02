@@ -131,7 +131,7 @@ class AddShieldBloc extends Bloc<AddShieldEvent, AddShieldState> {
 
       toastification.show(
         style: ToastificationStyle.fillColored,
-        type: ToastificationType.info,
+        type: ToastificationType.success,
         title: const Text('New insurance confirmed on-chain!'),
         borderRadius: BorderRadius.circular(6),
         autoCloseDuration: const Duration(seconds: 4),

@@ -70,7 +70,7 @@ class AssetItem extends StatelessWidget {
                     )),
                   ),
                   onPressed: () async {
-                    await showDialog<void>(
+                    final isSucceed = await showDialog<bool>(
                       barrierDismissible: false,
                       context: context,
                       builder: (_) {
@@ -97,6 +97,14 @@ class AssetItem extends StatelessWidget {
                         ));
                       },
                     );
+
+                    if ((isSucceed ?? false) && context.mounted) {
+                      await Future.wait([
+                        context.read<WalletStatsCubit>().fetch(),
+                        context.read<ExpireHistoryCubit>().getHistory(),
+                        context.read<ActiveHistoryCubit>().getHistory(),
+                      ]);
+                    }
 
                     // return;
                     // context.pushNamed('add_shield', extra: stat.toJson());

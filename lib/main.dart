@@ -70,32 +70,28 @@ class AutoShieldAppState extends State<AutoShieldApp> with AutoShieldAppRouter {
         return ReownAppKitModalTheme(
           isDarkMode: isDark,
           child: ToastificationWrapper(
-            config: const ToastificationConfig(
-              maxToastLimit: 1,
-              maxTitleLines: 4,
-            ),
-            child: MaterialApp.router(
-              routerConfig: appRouter,
-              title: 'Meta Coin Guard',
-              theme: AutoShieldTheme()(isDark),
-              builder: (context, child) {
-                return RepositoryProvider(
-                  create: (context) =>
-                      ReownService()..call(routerKey.currentContext!),
-                  child: Builder(builder: (context) {
-                    return BlocProvider(
+              config: const ToastificationConfig(
+                maxToastLimit: 1,
+                maxTitleLines: 4,
+              ),
+              child: RepositoryProvider(
+                create: (context) =>
+                    ReownService()..call(routerKey.currentContext!),
+                child: Builder(builder: (context) {
+                  return BlocProvider(
                       create: (context) => ReownBloc(
-                        authInterceptor: context.read(),
-                        authService: context.read(),
-                        reownService: context.read(),
-                      )..add(ReownStarted()),
-                      child: child,
-                    );
-                  }),
-                );
-              },
-            ),
-          ),
+                            authInterceptor: context.read(),
+                            authService: context.read(),
+                            reownService: context.read(),
+                            socketService: context.read(),
+                          )..add(ReownStarted()),
+                      child: MaterialApp.router(
+                        routerConfig: appRouter,
+                        title: 'Meta Coin Guard',
+                        theme: AutoShieldTheme()(isDark),
+                      ));
+                }),
+              )),
         );
       },
     );
