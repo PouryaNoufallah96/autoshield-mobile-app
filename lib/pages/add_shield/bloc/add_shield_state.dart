@@ -28,7 +28,7 @@ extension AddShieldStepX on AddShieldStep {
   String get title {
     return switch (this) {
       AddShieldStep.quantity => 'Quantity & Number of Month',
-      AddShieldStep.config => 'Select Your Auto Shield Plan',
+      AddShieldStep.config => 'Select Your Guard Plan',
       AddShieldStep.confirm => 'Shield Confirmation',
     };
   }

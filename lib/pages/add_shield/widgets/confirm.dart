@@ -100,7 +100,7 @@ class _Info extends StatelessWidget {
                   value: '$month',
                 ),
                 _Row(
-                  title: 'Auto shield Plans',
+                  title: 'Guard Plans',
                   value: state.config!.name,
                 ),
               ],

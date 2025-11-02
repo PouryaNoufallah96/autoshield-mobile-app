@@ -321,7 +321,7 @@ class _Details extends StatelessWidget {
                           value: '${item.selectedMonth}',
                         ),
                         _Row(
-                          title: 'Auto Shield Plan',
+                          title: 'Guard Plan',
                           value: item.type.key,
                         ),
                         _Row(
