@@ -18,11 +18,11 @@ class UserStatsCubit extends Cubit<UserStatsState> {
         super(const UserStatsState.initial()) {
     _subscription = authInterceptor.stream
         .map((event) => event.token?.token)
-        .where((event) => event != null)
-        .distinctUnique()
+        .distinctUnique(equals: (e1, e2) => e1 == e2)
         .listen((event) {
-      print('Fetchadasdsad $event');
-      fetch();
+      if (event != null) {
+        fetch();
+      }
     });
   }
 
@@ -40,8 +40,6 @@ class UserStatsCubit extends Cubit<UserStatsState> {
     final stats = await _statsService.fetch();
 
     if (stats != null) {
-      print('statettteess $stats');
-
       emit(UserStatsState.success(stats: stats));
 
       return;
