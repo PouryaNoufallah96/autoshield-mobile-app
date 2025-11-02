@@ -128,14 +128,8 @@ class AddShieldBloc extends Bloc<AddShieldEvent, AddShieldState> {
 
     if (isPayed ?? false) {
       emit(state.copyWith(submitStatus: AddShieldSubmitStatus.success));
-
-      toastification.show(
-        style: ToastificationStyle.fillColored,
-        type: ToastificationType.success,
-        title: const Text('New insurance confirmed on-chain!'),
-        borderRadius: BorderRadius.circular(6),
-        autoCloseDuration: const Duration(seconds: 4),
-      );
+    } else {
+      emit(state.copyWith(submitStatus: AddShieldSubmitStatus.idle));
     }
   }
 }
