@@ -283,7 +283,7 @@ class _Button extends StatelessWidget {
                           final available =
                               context.read<RzQuantiyBloc>().state.available;
 
-                          if (value > available) {
+                          if (available != null && value > available) {
                             toastification.show(
                               style: ToastificationStyle.fillColored,
                               type: ToastificationType.error,

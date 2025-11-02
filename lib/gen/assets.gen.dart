@@ -225,6 +225,9 @@ class $AssetsImagesGen {
   AssetGenImage get regularDisable =>
       const AssetGenImage('assets/images/regular_disable.png');
 
+  /// File path: assets/images/rp1.png
+  AssetGenImage get rp1 => const AssetGenImage('assets/images/rp1.png');
+
   /// File path: assets/images/rz.png
   AssetGenImage get rz => const AssetGenImage('assets/images/rz.png');
 
@@ -261,6 +264,7 @@ class $AssetsImagesGen {
         realestate,
         regular,
         regularDisable,
+        rp1,
         rz,
         trip,
         x,

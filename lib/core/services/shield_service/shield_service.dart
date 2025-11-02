@@ -78,13 +78,13 @@ class ShieldService {
   Future<(List<ShieldHistory> data, int totalCount)> getActiveShields(
     int page,
   ) async {
-    return _getShields(['Active'], page, 12);
+    return _getShields(['Active'], page, 100);
   }
 
   Future<(List<ShieldHistory> data, int totalCount)> getExpireShields(
     int page,
   ) async {
-    return _getShields(['Expire', 'Pending', 'Cancel'], page, 12);
+    return _getShields(['Expire', 'Pending', 'Cancel'], page, 100);
   }
 
   Future<(List<ShieldHistory> data, int totalCount)> _getShields(

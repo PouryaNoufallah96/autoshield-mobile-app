@@ -172,7 +172,7 @@ abstract class _Started implements RzQuantiyEvent {
 
 /// @nodoc
 mixin _$RzQuantiyState {
-  double get available => throw _privateConstructorUsedError;
+  double? get available => throw _privateConstructorUsedError;
 
   /// Create a copy of RzQuantiyState
   /// with the given fields replaced by the non-null parameter values.
@@ -187,7 +187,7 @@ abstract class $RzQuantiyStateCopyWith<$Res> {
           RzQuantiyState value, $Res Function(RzQuantiyState) then) =
       _$RzQuantiyStateCopyWithImpl<$Res, RzQuantiyState>;
   @useResult
-  $Res call({double available});
+  $Res call({double? available});
 }
 
 /// @nodoc
@@ -205,13 +205,13 @@ class _$RzQuantiyStateCopyWithImpl<$Res, $Val extends RzQuantiyState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? available = null,
+    Object? available = freezed,
   }) {
     return _then(_value.copyWith(
-      available: null == available
+      available: freezed == available
           ? _value.available
           : available // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ) as $Val);
   }
 }
@@ -224,7 +224,7 @@ abstract class _$$RzQuantiyStateImplCopyWith<$Res>
       __$$RzQuantiyStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double available});
+  $Res call({double? available});
 }
 
 /// @nodoc
@@ -240,13 +240,13 @@ class __$$RzQuantiyStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? available = null,
+    Object? available = freezed,
   }) {
     return _then(_$RzQuantiyStateImpl(
-      available: null == available
+      available: freezed == available
           ? _value.available
           : available // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
     ));
   }
 }
@@ -254,11 +254,10 @@ class __$$RzQuantiyStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$RzQuantiyStateImpl implements _RzQuantiyState {
-  const _$RzQuantiyStateImpl({this.available = 0});
+  const _$RzQuantiyStateImpl({this.available});
 
   @override
-  @JsonKey()
-  final double available;
+  final double? available;
 
   @override
   String toString() {
@@ -288,11 +287,11 @@ class _$RzQuantiyStateImpl implements _RzQuantiyState {
 }
 
 abstract class _RzQuantiyState implements RzQuantiyState {
-  const factory _RzQuantiyState({final double available}) =
+  const factory _RzQuantiyState({final double? available}) =
       _$RzQuantiyStateImpl;
 
   @override
-  double get available;
+  double? get available;
 
   /// Create a copy of RzQuantiyState
   /// with the given fields replaced by the non-null parameter values.

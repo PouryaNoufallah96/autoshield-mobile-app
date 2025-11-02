@@ -72,7 +72,6 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                       statsService: context.read(),
                       authInterceptor: context.read())
                     ..fetch(),
-                  lazy: false,
                 )
               ],
               child: StreamBuilder(

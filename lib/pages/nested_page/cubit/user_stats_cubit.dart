@@ -19,6 +19,7 @@ class UserStatsCubit extends Cubit<UserStatsState> {
     _subscription = authInterceptor.stream
         .map((event) => event.token?.token)
         .distinctUnique(equals: (e1, e2) => e1 == e2)
+        .skip(1)
         .listen((event) {
       if (event != null) {
         fetch();
