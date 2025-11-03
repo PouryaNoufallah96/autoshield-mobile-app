@@ -5,8 +5,6 @@ import 'package:auto_shield/core/services/shield_service/models.dart';
 import 'package:auto_shield/core/utils/number_formatter.dart';
 import 'package:auto_shield/pages/add_shield/add_shield.dart';
 import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
-import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
-import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
 import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,6 +73,11 @@ class AssetItem extends StatelessWidget {
                   onPressed: availableForCover == 0
                       ? null
                       : () async {
+                          final shieldConfig =
+                              context.read<ShieldConfigCubit>();
+                          final walletStats = context.read<WalletStatsCubit>();
+                          final userStats = context.read<UserStatsCubit>();
+
                           final isSucceed = await showDialog<bool>(
                             barrierDismissible: false,
                             context: context,
@@ -82,21 +85,9 @@ class AssetItem extends StatelessWidget {
                               return Dialog.fullscreen(
                                   child: MultiBlocProvider(
                                 providers: [
-                                  BlocProvider.value(
-                                    value: context.read<ShieldConfigCubit>(),
-                                  ),
-                                  BlocProvider.value(
-                                    value: context.read<WalletStatsCubit>(),
-                                  ),
-                                  BlocProvider.value(
-                                    value: context.read<ExpireHistoryCubit>(),
-                                  ),
-                                  BlocProvider.value(
-                                    value: context.read<ActiveHistoryCubit>(),
-                                  ),
-                                  BlocProvider.value(
-                                    value: context.read<UserStatsCubit>(),
-                                  ),
+                                  BlocProvider.value(value: shieldConfig),
+                                  BlocProvider.value(value: walletStats),
+                                  BlocProvider.value(value: userStats),
                                 ],
                                 child: AddShieldPage(stat: stat),
                               ));
