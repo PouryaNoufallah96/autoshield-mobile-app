@@ -17,7 +17,7 @@ class ShieldInfo extends StatelessWidget {
         return state.prices
                 .firstWhereOrNull((e) => e.tokenName == token.symbol)
                 ?.price ??
-            0;
+            token.tokenPrice;
       },
       builder: (context, price) {
         return BlocSelector<PriceBloc, PriceState, double>(

@@ -14,6 +14,7 @@ class WalletStats with _$WalletStats {
     required double availableForCover,
     required double coveredValue,
     required double availableForCoverValue,
+    required double tokenPrice,
   }) = _WalletStats;
 
   factory WalletStats.fromJson(Map<String, dynamic> json) =>

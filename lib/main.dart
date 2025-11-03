@@ -49,6 +49,30 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  ErrorWidget.builder = (details) {
+    return Builder(
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(8),
+          child: Material(
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Center(
+                child: Column(
+                  children: [
+                    Text('${details.exception}'.trim()),
+                    if (details.stack != null) Text('${details.stack}'.trim()),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  };
+
   runApp(appInjection(const AutoShieldApp()));
 }
 

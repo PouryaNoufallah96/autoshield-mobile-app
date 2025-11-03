@@ -48,8 +48,9 @@ class _AssetsList extends StatelessWidget {
           builder: (context, state) {
             return state.maybeWhen(
               success: (stats) {
-                final items =
-                    stats.where((e) => e.availableForCover > 0).toList();
+                final items = stats
+                    .where((e) => e.availableForCover > 0 || e.covered > 0)
+                    .toList();
 
                 return RefreshIndicator.adaptive(
                   onRefresh: () {

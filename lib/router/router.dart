@@ -72,7 +72,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                       statsService: context.read(),
                       authInterceptor: context.read())
                     ..fetch(),
-                )
+                ),
               ],
               child: StreamBuilder(
                   stream: context
@@ -87,9 +87,9 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
 
                     return BlocListener<NotifyShieldBloc, NotifyShieldState>(
                       listener: (context, state) {
-                        context.read<WalletStatsCubit>().fetch();
-                        context.read<ExpireHistoryCubit>().getHistory();
-                        context.read<ActiveHistoryCubit>().getHistory();
+                        if (context.mounted) {
+                          context.read<WalletStatsCubit>().fetch();
+                        }
                       },
                       child: NestedPage(child: navigationShell),
                     );

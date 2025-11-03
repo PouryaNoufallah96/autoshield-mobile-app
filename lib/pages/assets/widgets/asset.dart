@@ -21,6 +21,9 @@ class AssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final availableForCover =
+        double.tryParse(stat.availableForCoverValue.toStringAsFixed(2)) ?? 0;
+
     return Material(
       borderRadius: BorderRadius.circular(12),
       elevation: 4,
@@ -69,46 +72,41 @@ class AssetItem extends StatelessWidget {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     )),
                   ),
-                  onPressed: () async {
-                    final isSucceed = await showDialog<bool>(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (_) {
-                        return Dialog.fullscreen(
-                            child: MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(
-                              value: context.read<ShieldConfigCubit>(),
-                            ),
-                            BlocProvider.value(
-                              value: context.read<WalletStatsCubit>(),
-                            ),
-                            BlocProvider.value(
-                              value: context.read<ExpireHistoryCubit>(),
-                            ),
-                            BlocProvider.value(
-                              value: context.read<ActiveHistoryCubit>(),
-                            ),
-                            BlocProvider.value(
-                              value: context.read<UserStatsCubit>(),
-                            ),
-                          ],
-                          child: AddShieldPage(stat: stat),
-                        ));
-                      },
-                    );
+                  onPressed: availableForCover == 0
+                      ? null
+                      : () async {
+                          final isSucceed = await showDialog<bool>(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) {
+                              return Dialog.fullscreen(
+                                  child: MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                    value: context.read<ShieldConfigCubit>(),
+                                  ),
+                                  BlocProvider.value(
+                                    value: context.read<WalletStatsCubit>(),
+                                  ),
+                                  BlocProvider.value(
+                                    value: context.read<ExpireHistoryCubit>(),
+                                  ),
+                                  BlocProvider.value(
+                                    value: context.read<ActiveHistoryCubit>(),
+                                  ),
+                                  BlocProvider.value(
+                                    value: context.read<UserStatsCubit>(),
+                                  ),
+                                ],
+                                child: AddShieldPage(stat: stat),
+                              ));
+                            },
+                          );
 
-                    if ((isSucceed ?? false) && context.mounted) {
-                      await Future.wait([
-                        context.read<WalletStatsCubit>().fetch(),
-                        context.read<ExpireHistoryCubit>().getHistory(),
-                        context.read<ActiveHistoryCubit>().getHistory(),
-                      ]);
-                    }
-
-                    // return;
-                    // context.pushNamed('add_shield', extra: stat.toJson());
-                  },
+                          if ((isSucceed ?? false) && context.mounted) {
+                            await context.read<WalletStatsCubit>().fetch();
+                          }
+                        },
                   child: const Text('Add'),
                 )
               ],

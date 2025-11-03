@@ -16,6 +16,7 @@ _$WalletStatsImpl _$$WalletStatsImplFromJson(Map<String, dynamic> json) =>
       coveredValue: (json['coveredValue'] as num).toDouble(),
       availableForCoverValue:
           (json['availableForCoverValue'] as num).toDouble(),
+      tokenPrice: (json['tokenPrice'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$WalletStatsImplToJson(_$WalletStatsImpl instance) =>
@@ -27,6 +28,7 @@ Map<String, dynamic> _$$WalletStatsImplToJson(_$WalletStatsImpl instance) =>
       'availableForCover': instance.availableForCover,
       'coveredValue': instance.coveredValue,
       'availableForCoverValue': instance.availableForCoverValue,
+      'tokenPrice': instance.tokenPrice,
     };
 
 _$ShieldHistoryImpl _$$ShieldHistoryImplFromJson(Map<String, dynamic> json) =>

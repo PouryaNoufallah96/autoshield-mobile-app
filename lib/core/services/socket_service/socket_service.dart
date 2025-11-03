@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:auto_shield/core/env.dart';
 import 'package:auto_shield/core/services/auth_interceptor/auth_interceptor.dart';
@@ -45,6 +46,7 @@ class SocketService {
   bool _pricesStarted = false;
   bool _shieldStarted = false;
   bool _inventoryStarted = false;
+  int _priceRetryCount = 0;
   String? _address;
 
   final Set<String> _pricesHandlers = {_methodNotifyPrices};
@@ -116,7 +118,13 @@ class SocketService {
     try {
       await _pricesConn!.start();
       _pricesStarted = true;
-    } on HttpError catch (_) {}
+      _priceRetryCount = 0;
+    } catch (_) {
+      _priceRetryCount += 1;
+      await Future<void>.delayed(
+          Duration(seconds: pow(2, _priceRetryCount).toInt()));
+      await _startPrices();
+    }
   }
 
   Future<void> _startInventory() async {

@@ -80,7 +80,9 @@ class HttpService {
       final errorMessage = message ?? e.message ?? 'unknown error $e';
 
       if (e.response?.statusCode != null &&
-          (e.response!.statusCode != 403 || e.response!.statusCode != 401)) {
+          (e.response!.statusCode != 403 ||
+              e.response!.statusCode != 401 ||
+              e.response!.statusCode != 500)) {
         toastification.show(
           style: ToastificationStyle.fillColored,
           type: ToastificationType.error,

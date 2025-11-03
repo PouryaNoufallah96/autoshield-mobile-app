@@ -37,12 +37,11 @@ class _NestedPageState extends State<NestedPage> {
 
   @override
   Widget build(BuildContext context) {
-    useOnAppLifecycleStateChange((previous, current) async {
+    useOnAppLifecycleStateChange((previous, current) {
       if (previous == AppLifecycleState.inactive &&
-          current == AppLifecycleState.resumed) {
-        await Future.wait([
-          context.read<WalletStatsCubit>().fetch(),
-        ]);
+          current == AppLifecycleState.resumed &&
+          context.mounted) {
+        context.read<WalletStatsCubit>().fetch();
       }
     });
 

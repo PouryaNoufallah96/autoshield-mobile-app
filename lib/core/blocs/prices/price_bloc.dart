@@ -28,11 +28,16 @@ class PriceBloc extends Bloc<PriceEvent, PriceState> {
     await emit.forEach(
       stream,
       onData: (data) {
-        final prices = (data as Map<String, dynamic>)
-            .values
-            .cast<Map<String, dynamic>>()
-            .map(
-                (e) => TokenPrice.fromJson(e['price'] as Map<String, dynamic>));
+        final prices = (data as Map<String, dynamic>).entries.map(
+          (e) {
+            return TokenPrice(
+              tokenName: e.key,
+              price: ((e.value as Map<String, dynamic>)['price']
+                      as Map<String, dynamic>)['price'] as double? ??
+                  0,
+            );
+          },
+        );
 
         return _PriceState(prices: prices.toList());
       },

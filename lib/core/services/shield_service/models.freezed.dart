@@ -27,6 +27,7 @@ mixin _$WalletStats {
   double get availableForCover => throw _privateConstructorUsedError;
   double get coveredValue => throw _privateConstructorUsedError;
   double get availableForCoverValue => throw _privateConstructorUsedError;
+  double get tokenPrice => throw _privateConstructorUsedError;
 
   /// Serializes this WalletStats to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +52,8 @@ abstract class $WalletStatsCopyWith<$Res> {
       double covered,
       double availableForCover,
       double coveredValue,
-      double availableForCoverValue});
+      double availableForCoverValue,
+      double tokenPrice});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$WalletStatsCopyWithImpl<$Res, $Val extends WalletStats>
     Object? availableForCover = null,
     Object? coveredValue = null,
     Object? availableForCoverValue = null,
+    Object? tokenPrice = null,
   }) {
     return _then(_value.copyWith(
       symbol: null == symbol
@@ -106,6 +109,10 @@ class _$WalletStatsCopyWithImpl<$Res, $Val extends WalletStats>
           ? _value.availableForCoverValue
           : availableForCoverValue // ignore: cast_nullable_to_non_nullable
               as double,
+      tokenPrice: null == tokenPrice
+          ? _value.tokenPrice
+          : tokenPrice // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$WalletStatsImplCopyWith<$Res>
       double covered,
       double availableForCover,
       double coveredValue,
-      double availableForCoverValue});
+      double availableForCoverValue,
+      double tokenPrice});
 }
 
 /// @nodoc
@@ -148,6 +156,7 @@ class __$$WalletStatsImplCopyWithImpl<$Res>
     Object? availableForCover = null,
     Object? coveredValue = null,
     Object? availableForCoverValue = null,
+    Object? tokenPrice = null,
   }) {
     return _then(_$WalletStatsImpl(
       symbol: null == symbol
@@ -178,6 +187,10 @@ class __$$WalletStatsImplCopyWithImpl<$Res>
           ? _value.availableForCoverValue
           : availableForCoverValue // ignore: cast_nullable_to_non_nullable
               as double,
+      tokenPrice: null == tokenPrice
+          ? _value.tokenPrice
+          : tokenPrice // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -192,7 +205,8 @@ class _$WalletStatsImpl implements _WalletStats {
       required this.covered,
       required this.availableForCover,
       required this.coveredValue,
-      required this.availableForCoverValue});
+      required this.availableForCoverValue,
+      required this.tokenPrice});
 
   factory _$WalletStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$WalletStatsImplFromJson(json);
@@ -211,10 +225,12 @@ class _$WalletStatsImpl implements _WalletStats {
   final double coveredValue;
   @override
   final double availableForCoverValue;
+  @override
+  final double tokenPrice;
 
   @override
   String toString() {
-    return 'WalletStats(symbol: $symbol, tokenName: $tokenName, balance: $balance, covered: $covered, availableForCover: $availableForCover, coveredValue: $coveredValue, availableForCoverValue: $availableForCoverValue)';
+    return 'WalletStats(symbol: $symbol, tokenName: $tokenName, balance: $balance, covered: $covered, availableForCover: $availableForCover, coveredValue: $coveredValue, availableForCoverValue: $availableForCoverValue, tokenPrice: $tokenPrice)';
   }
 
   @override
@@ -232,13 +248,23 @@ class _$WalletStatsImpl implements _WalletStats {
             (identical(other.coveredValue, coveredValue) ||
                 other.coveredValue == coveredValue) &&
             (identical(other.availableForCoverValue, availableForCoverValue) ||
-                other.availableForCoverValue == availableForCoverValue));
+                other.availableForCoverValue == availableForCoverValue) &&
+            (identical(other.tokenPrice, tokenPrice) ||
+                other.tokenPrice == tokenPrice));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, symbol, tokenName, balance,
-      covered, availableForCover, coveredValue, availableForCoverValue);
+  int get hashCode => Object.hash(
+      runtimeType,
+      symbol,
+      tokenName,
+      balance,
+      covered,
+      availableForCover,
+      coveredValue,
+      availableForCoverValue,
+      tokenPrice);
 
   /// Create a copy of WalletStats
   /// with the given fields replaced by the non-null parameter values.
@@ -264,7 +290,8 @@ abstract class _WalletStats implements WalletStats {
       required final double covered,
       required final double availableForCover,
       required final double coveredValue,
-      required final double availableForCoverValue}) = _$WalletStatsImpl;
+      required final double availableForCoverValue,
+      required final double tokenPrice}) = _$WalletStatsImpl;
 
   factory _WalletStats.fromJson(Map<String, dynamic> json) =
       _$WalletStatsImpl.fromJson;
@@ -283,6 +310,8 @@ abstract class _WalletStats implements WalletStats {
   double get coveredValue;
   @override
   double get availableForCoverValue;
+  @override
+  double get tokenPrice;
 
   /// Create a copy of WalletStats
   /// with the given fields replaced by the non-null parameter values.
