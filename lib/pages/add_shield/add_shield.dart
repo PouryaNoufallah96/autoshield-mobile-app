@@ -128,6 +128,15 @@ class _Body extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    useOnAppLifecycleStateChange((previous, current) async {
+      if (previous == AppLifecycleState.inactive &&
+          current == AppLifecycleState.resumed) {
+        await Future.wait([
+          context.read<UserStatsCubit>().fetch(),
+        ]);
+      }
+    });
+
     return Column(
       children: [
         Expanded(

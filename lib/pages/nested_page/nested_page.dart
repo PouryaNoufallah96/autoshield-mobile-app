@@ -1,8 +1,6 @@
 import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/services/socket_service/socket_service.dart';
 import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
-import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
-import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
 import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,9 +35,6 @@ class _NestedPageState extends State<NestedPage> {
           current == AppLifecycleState.resumed) {
         await Future.wait([
           context.read<WalletStatsCubit>().fetch(),
-          context.read<UserStatsCubit>().fetch(),
-          context.read<ExpireHistoryCubit>().getHistory(),
-          context.read<ActiveHistoryCubit>().getHistory(),
         ]);
       }
     });
