@@ -80,7 +80,7 @@ class TransactionService {
 
     await _reownService.appKitModal.loadAccountData();
 
-    return res is String && res.startsWith('0x');
+    return res is String && res.startsWith('0x1');
   }
 
   EthereumAddress? _address() {
