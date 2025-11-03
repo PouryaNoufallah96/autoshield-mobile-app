@@ -20,8 +20,15 @@ class NestedPage extends StatefulWidget {
 
 class _NestedPageState extends State<NestedPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<SocketService>().connect();
+  }
+
+  @override
   void dispose() {
     context.read<SocketService>().disconnectShield();
+    context.read<SocketService>().disconnect();
 
     super.dispose();
   }

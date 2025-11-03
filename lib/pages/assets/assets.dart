@@ -1,3 +1,4 @@
+import 'package:auto_shield/core/blocs/prices/price_bloc.dart';
 import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
 import 'package:auto_shield/pages/assets/widgets/asset.dart';
 import 'package:flutter/material.dart';
@@ -32,38 +33,52 @@ class _AssetsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WalletStatsCubit, WalletStatsState>(
-      builder: (context, state) {
-        return state.maybeWhen(
-          success: (stats) {
-            final items = stats.where((e) => e.availableForCover > 0).toList();
+    return BlocSelector<PriceBloc, PriceState, bool>(
+      selector: (state) {
+        return state.prices.isEmpty;
+      },
+      builder: (context, isLoading) {
+        if (isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
-            return RefreshIndicator.adaptive(
-              onRefresh: () {
-                return Future.wait([
-                  context.read<WalletStatsCubit>().fetch(),
-                ]);
+        return BlocBuilder<WalletStatsCubit, WalletStatsState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              success: (stats) {
+                final items =
+                    stats.where((e) => e.availableForCover > 0).toList();
+
+                return RefreshIndicator.adaptive(
+                  onRefresh: () {
+                    return Future.wait([
+                      context.read<WalletStatsCubit>().fetch(),
+                    ]);
+                  },
+                  child: ListView.separated(
+                    itemCount: items.length,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 24, horizontal: 16),
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 16);
+                    },
+                    itemBuilder: (context, index) {
+                      final stat = items[index];
+
+                      return AssetItem(
+                        stat: stat,
+                      );
+                    },
+                  ),
+                );
               },
-              child: ListView.separated(
-                itemCount: items.length,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 16);
-                },
-                itemBuilder: (context, index) {
-                  final stat = items[index];
-
-                  return AssetItem(
-                    stat: stat,
-                  );
-                },
-              ),
-            );
-          },
-          orElse: () {
-            return const Center(
-              child: CircularProgressIndicator(),
+              orElse: () {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             );
           },
         );
