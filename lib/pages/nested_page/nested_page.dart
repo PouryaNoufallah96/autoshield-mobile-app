@@ -1,12 +1,16 @@
 import 'package:auto_shield/components/app_scaffold.dart';
 import 'package:auto_shield/core/services/socket_service/socket_service.dart';
+import 'package:auto_shield/pages/assets/cubit/wallet_stats_cubit.dart';
+import 'package:auto_shield/pages/history/widgets/active_items/cubit/active_history_cubit.dart';
+import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_history_cubit.dart';
 import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class NestedPage extends StatefulWidget {
+class NestedPage extends StatefulHookWidget {
   const NestedPage({
     required this.child,
     super.key,
@@ -28,6 +32,18 @@ class _NestedPageState extends State<NestedPage> {
 
   @override
   Widget build(BuildContext context) {
+    useOnAppLifecycleStateChange((previous, current) async {
+      if (previous == AppLifecycleState.inactive &&
+          current == AppLifecycleState.resumed) {
+        await Future.wait([
+          context.read<WalletStatsCubit>().fetch(),
+          context.read<UserStatsCubit>().fetch(),
+          context.read<ExpireHistoryCubit>().getHistory(),
+          context.read<ActiveHistoryCubit>().getHistory(),
+        ]);
+      }
+    });
+
     return AppScaffold(
       hide: widget.child.currentIndex == 2,
       body: BlocSelector<UserStatsCubit, UserStatsState, bool>(
