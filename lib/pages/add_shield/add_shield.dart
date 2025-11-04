@@ -39,6 +39,7 @@ class AddShieldPage extends StatelessWidget {
         RepositoryProvider(
           create: (context) => TransactionService(
             reownService: context.read(),
+            web3Client: context.read(),
           ),
         ),
       ],

@@ -6,9 +6,12 @@ import 'package:reown_appkit/reown_appkit.dart';
 class TransactionService {
   TransactionService({
     required ReownService reownService,
-  }) : _reownService = reownService;
+    required Web3Client web3Client,
+  })  : _reownService = reownService,
+        _web3Client = web3Client;
 
   final ReownService _reownService;
+  final Web3Client _web3Client;
 
   Future<void> loadAccountData() async {
     try {
@@ -80,7 +83,20 @@ class TransactionService {
 
     await _reownService.appKitModal.loadAccountData();
 
-    return res is String && res.startsWith('0x1');
+    if (res is String && res.startsWith('0x')) {
+      try {
+        return isSucceed(res);
+      } catch (_) {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
+  Future<bool> isSucceed(String tx) async {
+    final r = await _web3Client.getTransactionReceipt(tx);
+    return r?.status ?? false;
   }
 
   EthereumAddress? _address() {

@@ -129,23 +129,23 @@ class AddShieldBloc extends Bloc<AddShieldEvent, AddShieldState> {
     if (isPayed != null) {
       emit(state.copyWith(submitStatus: AddShieldSubmitStatus.success));
 
-      // if (isPayed) {
-      //   toastification.show(
-      //     style: ToastificationStyle.fillColored,
-      //     type: ToastificationType.success,
-      //     title: const Text('New insurance confirmed on-chain!'),
-      //     borderRadius: BorderRadius.circular(6),
-      //     autoCloseDuration: const Duration(seconds: 4),
-      //   );
-      // } else {
-      //   toastification.show(
-      //     style: ToastificationStyle.fillColored,
-      //     type: ToastificationType.error,
-      //     title: const Text('Transaction failed or reverted.'),
-      //     borderRadius: BorderRadius.circular(6),
-      //     autoCloseDuration: const Duration(seconds: 4),
-      //   );
-      // }
+      if (isPayed) {
+        toastification.show(
+          style: ToastificationStyle.fillColored,
+          type: ToastificationType.success,
+          title: const Text('New insurance confirmed on-chain!'),
+          borderRadius: BorderRadius.circular(6),
+          autoCloseDuration: const Duration(seconds: 4),
+        );
+      } else {
+        toastification.show(
+          style: ToastificationStyle.fillColored,
+          type: ToastificationType.error,
+          title: const Text('Transaction failed or reverted.'),
+          borderRadius: BorderRadius.circular(6),
+          autoCloseDuration: const Duration(seconds: 4),
+        );
+      }
     }
   }
 }

@@ -25,8 +25,9 @@ Widget appInjection(Widget child) {
       //   lazy: false,
       // ),
       RepositoryProvider(
-        create: (context) {
-          const rpc = 'https://sepolia.drpc.org';
+        create: (z) {
+          const rpc =
+              'https://bsc-mainnet.nodereal.io/v1/e67c75f850574f2fb42fd8820434497b';
 
           return Web3Client(rpc, http.Client());
         },
