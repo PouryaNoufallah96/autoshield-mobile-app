@@ -114,8 +114,10 @@ class AddShieldBloc extends Bloc<AddShieldEvent, AddShieldState> {
     final isPayed = await futureTimeout(
       _transactionService.payOrder(
           response.functionParams(), response.signature ?? ''),
-      const Duration(seconds: 30),
+      const Duration(seconds: 120),
       () {
+        emit(state.copyWith(submitStatus: AddShieldSubmitStatus.idle));
+
         toastification.show(
           style: ToastificationStyle.fillColored,
           type: ToastificationType.error,
