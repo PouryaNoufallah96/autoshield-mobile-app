@@ -66,7 +66,7 @@ class ReownService {
         chainIcon: '93564157-2e8e-4ce7-81df-b264dbee9b00',
         currency: 'BNB',
         rpcUrl:
-            'hhttps://purple-proud-card.bsc.quiknode.pro/f9c9d9b7cc798a81f31d4db5f41a4f1beb3671d7/',
+            'https://bsc-mainnet.nodereal.io/v1/e67c75f850574f2fb42fd8820434497b',
         explorerUrl: 'https://bscscan.com',
         extraRpcUrls: [
           'https://bsc-mainnet.nodereal.io/v1/681a75f4f1e84ce0a1d572d7a8420fae',

@@ -10,10 +10,11 @@ Future<T?> futureTimeout<T>(
       limit,
     );
   } on TimeoutException {
+    print('futureTimeout TimeoutException');
     onTimeout();
     return null;
   } catch (e, s) {
-    print('Catch error $e $s');
+    print('futureTimeout  $e $s');
     onTimeout();
     return null;
   }

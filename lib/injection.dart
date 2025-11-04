@@ -27,7 +27,7 @@ Widget appInjection(Widget child) {
       RepositoryProvider(
         create: (z) {
           const rpc =
-              'https://purple-proud-card.bsc.quiknode.pro/f9c9d9b7cc798a81f31d4db5f41a4f1beb3671d7/';
+              'https://bsc-mainnet.nodereal.io/v1/e67c75f850574f2fb42fd8820434497b';
 
           return Web3Client(rpc, http.Client());
         },

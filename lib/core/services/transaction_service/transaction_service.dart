@@ -64,34 +64,40 @@ class TransactionService {
   }
 
   Future<bool> payOrder(List<dynamic> params, String signature) async {
-    final chainId = _reownService.appKitModal.selectedChain?.chainId;
+    try {
+      final chainId = _reownService.appKitModal.selectedChain?.chainId;
 
-    final addressCheckSum = _address();
+      final addressCheckSum = _address();
 
-    if (chainId == null) {
-      return false;
-    }
-
-    final res = await _reownService.appKitModal.requestWriteContract(
-      topic: _reownService.appKitModal.session?.topic,
-      chainId: chainId,
-      deployedContract: AppContractAbi.appContract,
-      functionName: AppContractAbi.insureTokenFunction.name,
-      transaction: Transaction(from: addressCheckSum),
-      parameters: [params, hexToBytes(signature)],
-    );
-
-    await _reownService.appKitModal.loadAccountData();
-
-    if (res is String && res.startsWith('0x')) {
-      try {
-        return isSucceed(res);
-      } catch (_) {
+      if (chainId == null) {
         return false;
       }
-    }
 
-    return false;
+      final res = await _reownService.appKitModal.requestWriteContract(
+        topic: _reownService.appKitModal.session?.topic,
+        chainId: chainId,
+        deployedContract: AppContractAbi.appContract,
+        functionName: AppContractAbi.insureTokenFunction.name,
+        transaction: Transaction(from: addressCheckSum),
+        parameters: [params, hexToBytes(signature)],
+      );
+
+      await _reownService.appKitModal.loadAccountData();
+
+      if (res is String && res.startsWith('0x')) {
+        try {
+          final succeed = await isSucceed(res);
+
+          return succeed;
+        } catch (_) {
+          return false;
+        }
+      }
+
+      return false;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<bool> isSucceed(String tx) async {
