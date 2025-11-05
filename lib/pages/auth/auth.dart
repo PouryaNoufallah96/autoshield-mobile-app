@@ -1,12 +1,10 @@
 import 'package:auto_shield/components/app_logo.dart';
 import 'package:auto_shield/components/app_scaffold.dart';
-import 'package:auto_shield/components/dashed_button.dart';
 import 'package:auto_shield/core/blocs/cubit/health_status_cubit.dart';
 import 'package:auto_shield/core/blocs/reown/reown_bloc.dart';
 import 'package:auto_shield/core/services/reown/reown.dart';
 import 'package:auto_shield/core/utils/theme_utils.dart';
 import 'package:auto_shield/gen/assets.gen.dart';
-import 'package:auto_shield/pages/auth/widgets/auth_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -158,22 +156,22 @@ class __AuthState extends State<_Auth> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                   ),
-                  onPressed: !_isConnected || !canShowAction
-                      ? () async {
-                          await showModalBottomSheet<String>(
-                            context: context,
-                            useRootNavigator: true,
-                            isScrollControlled: true,
-                            useSafeArea: true,
-                            backgroundColor: Colors.white,
-                            showDragHandle: true,
-                            builder: (_) {
-                              return const _PublicWallet();
-                            },
-                          );
-                        }
-                      : showLoading
-                          ? null
+                  onPressed: showLoading
+                      ? null
+                      : !_isConnected || !canShowAction
+                          ? () async {
+                              await showModalBottomSheet<String>(
+                                context: context,
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                backgroundColor: Colors.white,
+                                showDragHandle: true,
+                                builder: (_) {
+                                  return const _PublicWallet();
+                                },
+                              );
+                            }
                           : () {
                               context
                                   .read<ReownBloc>()
@@ -200,41 +198,41 @@ class __AuthState extends State<_Auth> {
             },
           ),
         ),
-        if (canShowAction) ...[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(35, 32, 35, 0),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 320),
-              child: DashedOutlinedButton(
-                onPressed: isLoading
-                    ? null
-                    : () {
-                        if (_isConnected) {
-                          widget.appKit.openModalView();
-                        } else {
-                          context
-                              .read<ReownBloc>()
-                              .add(ReownLogginButtonPressed());
-                        }
-                      },
-                child: Center(
-                  child: Text(
-                    _isConnected
-                        ? 'Connected wallet'
-                        : 'Connect with WalletConnect',
-                    style: const TextStyle(
-                      fontFamily: 'CentraNo1-Medium',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          AppAuthStatus(appKit: widget.appKit),
-        ],
+        // if (canShowAction) ...[
+        //   Padding(
+        //     padding: const EdgeInsets.fromLTRB(35, 32, 35, 0),
+        //     child: ConstrainedBox(
+        //       constraints: const BoxConstraints(maxWidth: 320),
+        //       child: DashedOutlinedButton(
+        //         onPressed: isLoading
+        //             ? null
+        //             : () {
+        //                 if (_isConnected) {
+        //                   widget.appKit.openModalView();
+        //                 } else {
+        //                   context
+        //                       .read<ReownBloc>()
+        //                       .add(ReownLogginButtonPressed());
+        //                 }
+        //               },
+        //         child: Center(
+        //           child: Text(
+        //             _isConnected
+        //                 ? 'Connected wallet'
+        //                 : 'Connect with WalletConnect',
+        //             style: const TextStyle(
+        //               fontFamily: 'CentraNo1-Medium',
+        //               fontSize: 16,
+        //               fontWeight: FontWeight.w500,
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        //   const SizedBox(height: 24),
+        //   AppAuthStatus(appKit: widget.appKit),
+        // ],
         const SizedBox(height: 40),
       ],
     );
