@@ -157,13 +157,13 @@ class $AssetsImagesGen {
   AssetGenImage get appIcon =>
       const AssetGenImage('assets/images/app_icon.png');
 
-  /// File path: assets/images/app_icon_launcher.png
+  /// File path: assets/images/app_icon_launcher.jpg
   AssetGenImage get appIconLauncher =>
-      const AssetGenImage('assets/images/app_icon_launcher.png');
+      const AssetGenImage('assets/images/app_icon_launcher.jpg');
 
-  /// File path: assets/images/app_icon_launcher_ios.png
+  /// File path: assets/images/app_icon_launcher_ios.jpg
   AssetGenImage get appIconLauncherIos =>
-      const AssetGenImage('assets/images/app_icon_launcher_ios.png');
+      const AssetGenImage('assets/images/app_icon_launcher_ios.jpg');
 
   /// File path: assets/images/car.png
   AssetGenImage get car => const AssetGenImage('assets/images/car.png');
@@ -195,17 +195,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/mgc.png
   AssetGenImage get mgc => const AssetGenImage('assets/images/mgc.png');
 
-  /// File path: assets/images/on_boarding_1.webp
+  /// File path: assets/images/on_boarding_1.png
   AssetGenImage get onBoarding1 =>
-      const AssetGenImage('assets/images/on_boarding_1.webp');
+      const AssetGenImage('assets/images/on_boarding_1.png');
 
-  /// File path: assets/images/on_boarding_2.webp
+  /// File path: assets/images/on_boarding_2.png
   AssetGenImage get onBoarding2 =>
-      const AssetGenImage('assets/images/on_boarding_2.webp');
+      const AssetGenImage('assets/images/on_boarding_2.png');
 
-  /// File path: assets/images/on_boarding_3.webp
+  /// File path: assets/images/on_boarding_3.png
   AssetGenImage get onBoarding3 =>
-      const AssetGenImage('assets/images/on_boarding_3.webp');
+      const AssetGenImage('assets/images/on_boarding_3.png');
 
   /// File path: assets/images/premium.png
   AssetGenImage get premium => const AssetGenImage('assets/images/premium.png');

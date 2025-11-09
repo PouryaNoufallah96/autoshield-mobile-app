@@ -17,7 +17,9 @@ import 'package:auto_shield/pages/history/widgets/expired_items/cubit/expire_his
 import 'package:auto_shield/pages/nested_page/bloc/notify_shield_bloc.dart';
 import 'package:auto_shield/pages/nested_page/cubit/user_stats_cubit.dart';
 import 'package:auto_shield/pages/nested_page/nested_page.dart';
+import 'package:auto_shield/pages/on_boarding/on_boarding.dart';
 import 'package:auto_shield/pages/settings/settings.dart';
+import 'package:auto_shield/pages/terms_of_use/terms_of_use.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

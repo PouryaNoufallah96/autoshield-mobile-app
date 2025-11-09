@@ -50,10 +50,12 @@ class _AppScaffold extends StatelessWidget {
 class DotEffect extends HookWidget {
   const DotEffect({
     required this.isTop,
+    this.heightMulti = .5,
     super.key,
   });
 
   final bool isTop;
+  final double heightMulti;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,7 @@ class DotEffect extends HookWidget {
         isComplex: true,
         painter: _Painter(
           isTop: isTop,
+          heightMulti: heightMulti,
           controller: animation,
         ),
       ),
@@ -83,14 +86,16 @@ class _Painter extends CustomPainter {
   _Painter({
     required this.isTop,
     required this.controller,
+    this.heightMulti = .5,
   }) : super(repaint: Listenable.merge([controller]));
 
   final bool isTop;
   final AnimationController controller;
+  final double heightMulti;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final height = size.height * .5;
+    final height = size.height * heightMulti;
     final width = size.width;
 
     final rows = width ~/ 10;

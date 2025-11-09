@@ -16,7 +16,22 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
         preferencesStream: context.read<PreferencesBloc>().stream,
       ),
       redirect: (context, state) async {
-        print('APPREDIRECT ${state.uri} ${state.matchedLocation}');
+        final path = state.uri.path;
+
+        final PreferencesState(:isOnBoardingPass, :isTermsAccepted) =
+            context.read<PreferencesBloc>().state;
+
+        if (!isOnBoardingPass) {
+          return '/on_boarding';
+        }
+
+        if (!isTermsAccepted) {
+          return '/terms_of_use';
+        }
+
+        if (isTermsAccepted && path == '/terms_of_use') {
+          return '/';
+        }
 
         final streamValue = context.read<AuthInterceptor>().stream.value;
         final token = streamValue.token;
@@ -176,14 +191,14 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
             );
           },
         ),
-        // GoRoute(
-        //   path: '/on_boarding',
-        //   builder: (context, state) => const OnBoardingPage(),
-        // ),
-        // GoRoute(
-        //   path: '/terms_of_use',
-        //   builder: (context, state) => const TermsOfUsePage(),
-        // )
+        GoRoute(
+          path: '/on_boarding',
+          builder: (context, state) => const OnBoardingPage(),
+        ),
+        GoRoute(
+          path: '/terms_of_use',
+          builder: (context, state) => const TermsOfUsePage(),
+        )
       ],
     );
   }
