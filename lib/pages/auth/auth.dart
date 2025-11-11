@@ -156,22 +156,22 @@ class __AuthState extends State<_Auth> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                   ),
-                  onPressed: showLoading
-                      ? null
-                      : !_isConnected || !canShowAction
-                          ? () async {
-                              await showModalBottomSheet<String>(
-                                context: context,
-                                useRootNavigator: true,
-                                isScrollControlled: true,
-                                useSafeArea: true,
-                                backgroundColor: Colors.white,
-                                showDragHandle: true,
-                                builder: (_) {
-                                  return const _PublicWallet();
-                                },
-                              );
-                            }
+                  onPressed: !_isConnected || !canShowAction
+                      ? () async {
+                          await showModalBottomSheet<String>(
+                            context: context,
+                            useRootNavigator: true,
+                            isScrollControlled: true,
+                            useSafeArea: true,
+                            backgroundColor: Colors.white,
+                            showDragHandle: true,
+                            builder: (_) {
+                              return const _PublicWallet();
+                            },
+                          );
+                        }
+                      : showLoading
+                          ? null
                           : () {
                               context
                                   .read<ReownBloc>()

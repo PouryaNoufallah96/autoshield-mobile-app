@@ -105,12 +105,12 @@ class _Page extends StatelessWidget {
                 color: Color(0xff4024D1),
               ),
             ),
-            actions: const [
+            actions: [
               IconButton(
-                onPressed: null,
-                icon: Icon(
-                  FontAwesomeIcons.arrowLeftLong,
-                  color: Colors.transparent,
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  FontAwesomeIcons.xmark,
+                  color: Color(0xff4024D1),
                 ),
               )
             ],
