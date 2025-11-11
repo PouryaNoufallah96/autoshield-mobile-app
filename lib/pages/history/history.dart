@@ -14,7 +14,7 @@ class HistoryPage extends HookWidget {
       children: [
         const SizedBox(height: 23),
         const Text(
-          'Shield',
+          'Guard',
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontFamily: 'CentraNo1-Medium',
