@@ -29,7 +29,7 @@ extension AddShieldStepX on AddShieldStep {
     return switch (this) {
       AddShieldStep.quantity => 'Quantity & Number of Month',
       AddShieldStep.config => 'Select Your Guard Plan',
-      AddShieldStep.confirm => 'Shield Confirmation',
+      AddShieldStep.confirm => 'Guard Confirmation',
     };
   }
 }
