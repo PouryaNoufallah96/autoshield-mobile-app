@@ -100,7 +100,7 @@ class _Page extends StatelessWidget {
                       .add(AddShieldEvent.changeStep(p));
                 }
               },
-              icon: const Icon(
+              icon: const FaIcon(
                 FontAwesomeIcons.arrowLeftLong,
                 color: Color(0xff4024D1),
               ),
@@ -108,7 +108,7 @@ class _Page extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(
+                icon: const FaIcon(
                   FontAwesomeIcons.xmark,
                   color: Color(0xff4024D1),
                 ),
