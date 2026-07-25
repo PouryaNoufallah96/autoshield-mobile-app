@@ -78,7 +78,7 @@ sealed class _Env {
 class _StageEnv extends _Env {
   _StageEnv()
       : super(
-          reownProjectId: '6e91607e63e1d699223ba2b0d383634a',
+          reownProjectId: '4ee4cb238a3caa0a5a21e69a7f2b71b3',
           apiEndPoint: 'https://autoapi.rzprime.com/api/v1/',
           clientId: 'app_mainappful',
           clientSecret: 'jegfariahmanzfrpamel',

@@ -1,4 +1,4 @@
-package com.example.auto_shield
+package com.meta.coin.guard
 
 import io.flutter.embedding.android.FlutterActivity
 
